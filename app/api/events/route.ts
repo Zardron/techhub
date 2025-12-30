@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
         const file = formData.get('image') as File;
 
-        const uploadResult = await handleImageUpload(file, 'DevHub');
+        const uploadResult = await handleImageUpload(file, 'TechHub');
 
         if (!uploadResult.success) {
             return uploadResult.response;

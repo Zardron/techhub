@@ -1,13 +1,5 @@
 import mongoose, { Mongoose } from 'mongoose';
 
-type MongooseCache = { conn: Mongoose | null; promise: Promise<Mongoose> | null };
-
-declare global {
-    var mongoose: MongooseCache | undefined;
-}
-
-const cached: MongooseCache = global.mongoose ?? { conn: null, promise: null };
-
 const getMongoURI = (): string => {
     if (process.env.MONGODB_URI) return process.env.MONGODB_URI;
 
@@ -20,20 +12,11 @@ const getMongoURI = (): string => {
 };
 
 async function connectDB(): Promise<Mongoose> {
-    if (cached.conn) {
-        console.log('✅ MongoDB: Using cached connection');
-        return cached.conn;
-    }
-
-    cached.promise ??= mongoose.connect(getMongoURI(), { bufferCommands: false });
-
     try {
-        cached.conn = await cached.promise;
-        global.mongoose = cached;
+        const conn = await mongoose.connect(getMongoURI(), { bufferCommands: false });
         console.log('✅ MongoDB: Connected successfully');
-        return cached.conn;
+        return conn;
     } catch (error) {
-        cached.promise = null;
         console.error('❌ MongoDB: Connection failed', error);
         throw error;
     }
