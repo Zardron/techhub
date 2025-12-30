@@ -41,10 +41,10 @@ const SignInPage = () => {
                     {/* Left Panel - Branding & Visuals */}
                     <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
                         {/* Content */}
-                        <div className="relative z-10 flex flex-col justify-center px-8 xl:px-10 py-10">
+                        <div className="relative z-10 flex flex-col justify-center px-8 xl:px-10 py-8">
                             <div className="animate-fade-in-up">
                                 {/* Logo */}
-                                <Link href="/" className="flex items-center gap-3 mb-8 w-fit group">
+                                <Link href="/" className="flex items-center gap-3 mb-6 w-fit group">
                                     <div className="w-10 h-10 rounded-lg bg-transparent border border-blue/30 flex items-center justify-center p-2 shadow-[0_0_20px_rgba(148,234,255,0.2)] group-hover:shadow-[0_0_30px_rgba(148,234,255,0.3)] transition-all duration-300">
                                         <Image
                                             src="/icons/logo.png"
@@ -60,33 +60,33 @@ const SignInPage = () => {
                                 </Link>
 
                                 {/* Welcome Message */}
-                                <h1 className="text-5xl xl:text-6xl font-bold mb-4 leading-tight">
+                                <h1 className="text-4xl xl:text-5xl font-bold mb-3 leading-tight">
                                     <span className="block text-foreground">Welcome</span>
                                     <span className="block text-gradient">Back</span>
                                 </h1>
-                                <p className="text-light-200 text-base mb-8 max-w-sm leading-relaxed">
+                                <p className="text-light-200 text-sm mb-6 max-w-sm leading-relaxed">
                                     Sign in to continue your journey with the developer community. Discover events, connect with peers, and grow your skills.
                                 </p>
 
                                 {/* Features List */}
-                                <div className="space-y-3">
+                                <div className="space-y-2.5">
                                     <div className="flex items-center gap-3 animate-fade-in-up animate-delay-200">
-                                        <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
-                                            <span className="text-primary text-lg">✓</span>
+                                        <div className="w-7 h-7 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
+                                            <span className="text-primary text-base">✓</span>
                                         </div>
-                                        <p className="text-light-100 text-sm">Access exclusive developer events</p>
+                                        <p className="text-light-100 text-xs">Access exclusive developer events</p>
                                     </div>
                                     <div className="flex items-center gap-3 animate-fade-in-up animate-delay-300">
-                                        <div className="w-8 h-8 rounded-lg bg-blue/20 border border-blue/30 flex items-center justify-center">
-                                            <span className="text-blue text-lg">✓</span>
+                                        <div className="w-7 h-7 rounded-lg bg-blue/20 border border-blue/30 flex items-center justify-center">
+                                            <span className="text-blue text-base">✓</span>
                                         </div>
-                                        <p className="text-light-100 text-sm">Connect with like-minded developers</p>
+                                        <p className="text-light-100 text-xs">Connect with like-minded developers</p>
                                     </div>
                                     <div className="flex items-center gap-3 animate-fade-in-up animate-delay-400">
-                                        <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
-                                            <span className="text-primary text-lg">✓</span>
+                                        <div className="w-7 h-7 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
+                                            <span className="text-primary text-base">✓</span>
                                         </div>
-                                        <p className="text-light-100 text-sm">Track your event bookings</p>
+                                        <p className="text-light-100 text-xs">Track your event bookings</p>
                                     </div>
                                 </div>
                             </div>
@@ -94,11 +94,11 @@ const SignInPage = () => {
                     </div>
 
                     {/* Right Panel - Sign In Form */}
-                    <div className="w-full lg:w-1/2 flex items-center justify-center px-6 sm:px-8 lg:px-10 py-10 relative">
-                        <div className="w-full max-w-md relative z-10">
+                    <div className="w-full lg:w-1/2 flex items-center justify-center px-6 sm:px-8 lg:px-10 py-8 relative">
+                        <div className="w-full max-w-sm relative z-10">
                             {/* Mobile Logo */}
-                            <div className="lg:hidden mb-8 text-center animate-fade-in-up">
-                                <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
+                            <div className="lg:hidden mb-6 text-center animate-fade-in-up">
+                                <Link href="/" className="inline-flex items-center gap-3 mb-4 group">
                                     <div className="w-10 h-10 rounded-lg bg-transparent border border-blue/30 flex items-center justify-center p-2 shadow-[0_0_15px_rgba(148,234,255,0.15)] group-hover:shadow-[0_0_25px_rgba(148,234,255,0.25)] transition-all duration-300">
                                         <Image
                                             src="/icons/logo.png"
@@ -112,36 +112,36 @@ const SignInPage = () => {
                                         TechHub
                                     </span>
                                 </Link>
-                                <h1 className="text-4xl font-bold mb-2 text-foreground">
+                                <h1 className="text-3xl font-bold mb-2 text-foreground">
                                     Welcome Back
                                 </h1>
-                                <p className="text-light-200 text-sm">
+                                <p className="text-light-200 text-xs">
                                     Sign in to your TechHub account
                                 </p>
                             </div>
 
                             {/* Desktop Header */}
-                            <div className="hidden lg:block mb-6 animate-fade-in-up">
-                                <h2 className="text-2xl font-bold mb-1 text-foreground">
+                            <div className="hidden lg:block mb-4 animate-fade-in-up">
+                                <h2 className="text-xl font-bold mb-1 text-foreground">
                                     Sign In
                                 </h2>
-                                <p className="text-light-200 text-sm">
+                                <p className="text-light-200 text-xs">
                                     Enter your credentials to continue
                                 </p>
                             </div>
 
                             {/* Login Form Card */}
-                            <div className="bg-dark-200/60 backdrop-blur-xl border border-blue/20 rounded-xl shadow-lg px-6 py-8 relative overflow-hidden">
+                            <div className="bg-dark-200/60 backdrop-blur-xl border border-blue/20 rounded-xl shadow-lg px-5 py-6 relative overflow-hidden">
                                 {/* Subtle glow effect inside card */}
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                                 
                                 <form onSubmit={handleSubmit} className="relative z-10">
-                                    <div className="flex flex-col gap-6">
+                                    <div className="flex flex-col gap-4">
                                         {/* Email Field */}
-                                        <div className="space-y-2">
+                                        <div className="space-y-1.5">
                                             <label 
                                                 htmlFor="email" 
-                                                className="text-light-100 text-sm font-medium block"
+                                                className="text-light-100 text-xs font-medium block"
                                             >
                                                 Email Address
                                             </label>
@@ -153,15 +153,15 @@ const SignInPage = () => {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 required
-                                                className="bg-dark-100/80 backdrop-blur-sm rounded-lg px-5 py-3.5 w-full text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border border-border-dark/50 transition-all duration-300 hover:border-blue/30"
+                                                className="bg-dark-100/80 backdrop-blur-sm rounded-lg px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border border-border-dark/50 transition-all duration-300 hover:border-blue/30"
                                             />
                                         </div>
 
                                         {/* Password Field */}
-                                        <div className="space-y-2">
+                                        <div className="space-y-1.5">
                                             <label 
                                                 htmlFor="password" 
-                                                className="text-light-100 text-sm font-medium block"
+                                                className="text-light-100 text-xs font-medium block"
                                             >
                                                 Password
                                             </label>
@@ -173,14 +173,14 @@ const SignInPage = () => {
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 required
-                                                className="bg-dark-100/80 backdrop-blur-sm rounded-lg px-5 py-3.5 w-full text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border border-border-dark/50 transition-all duration-300 hover:border-blue/30"
+                                                className="bg-dark-100/80 backdrop-blur-sm rounded-lg px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border border-border-dark/50 transition-all duration-300 hover:border-blue/30"
                                             />
                                         </div>
 
                                         {/* Sign In Button */}
                                         <button
                                             type="submit"
-                                            className="bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-lg px-4 py-3.5 text-lg font-semibold text-black transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/50 mt-2"
+                                            className="bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-lg px-4 py-3 text-base font-semibold text-black transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/50 mt-1"
                                         >
                                             Sign in
                                         </button>
@@ -188,8 +188,8 @@ const SignInPage = () => {
                                 </form>
 
                                 {/* Sign Up Link */}
-                                <div className="mt-8 text-center relative z-10">
-                                    <p className="text-light-200 text-sm">
+                                <div className="mt-6 text-center relative z-10">
+                                    <p className="text-light-200 text-xs">
                                         Don't have an account?{" "}
                                         <Link 
                                             href="/sign-up" 
