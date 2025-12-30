@@ -1,19 +1,21 @@
 "use client"
 
-import Image from "next/image"
-import posthog from "posthog-js"
-
 const ExploreBtn = () => {
-    const handleClick = () => {
-        posthog.capture('explore_events_clicked', {
-            button_location: 'hero_section',
-        });
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        const eventsSection = document.getElementById('browse-all-events-btn');
+        if (eventsSection) {
+            eventsSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     };
 
     return (
-        <button type="button" id="explore-btn" className="mt-7 mx-auto" onClick={handleClick}>
-            <a href="#events">Explore Events</a>
-            <Image src="/icons/arrow-down.svg" alt="Arrow Down" width={24} height={24} />
+        <button type="button" id="explore-btn" className="mt-7 mx-auto hover:scale-110 hover:shadow-lg transition-all duration-300" onClick={handleClick}>
+            <span className="inline-block">Explore Events ↓</span>
         </button>
     )
 }

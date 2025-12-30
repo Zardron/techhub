@@ -97,10 +97,11 @@ export function formatDateToReadable(date: string): string {
   }
 }
 
+
 // Handle Image Upload to Cloudinary
 export async function handleImageUpload(
   file: File | null,
-  folder: string = 'DevHub'
+  folder: string = 'TechHub'
 ): Promise<{ success: true; url: string } | { success: false; response: NextResponse }> {
   if (!file) {
     return {

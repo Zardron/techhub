@@ -3,6 +3,8 @@ import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
 import "./globals.css";
 import LightRays from '../components/LightRays';
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const schibstedGrotesk = Schibsted_Grotesk({
   variable: "--font-schibsted-grotesk",
@@ -15,8 +17,13 @@ const martianMono = Martian_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DevHub Event App",
-  description: "The Hub for all your Dev events",
+  title: "TechHub - Your Tech Event Platform",
+  description: "Discover and attend tech events worldwide. Hackathons, developer conferences, tech workshops, and more.",
+  icons: {
+    icon: "/icons/logo.png",
+    shortcut: "/icons/logo.png",
+    apple: "/icons/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -29,8 +36,9 @@ export default function RootLayout({
       <body
         className={`${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
       >
+        <ScrollToTop />
         <Navbar />
-        <div className="absolute inset-0 top-0 min-h-screen pointer-events-none">
+        <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
           <LightRays
             raysOrigin="top-center-offset"
             raysColor="#5dfeca"
@@ -41,10 +49,14 @@ export default function RootLayout({
             mouseInfluence={0.02}
             noiseAmount={0.0}
             distortion={0.01}
+            className="w-full h-full"
           />
         </div>
-        <div className="container mx-auto px-10 py-10 relative z-10">
+        <div className="container mx-auto px-10 py-10 pt-16 relative z-10">
           {children}
+        </div>
+        <div className="container mx-auto px-10 relative z-10">
+          <Footer />
         </div>
       </body>
     </html>
