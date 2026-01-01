@@ -124,17 +124,19 @@ const SideBar = () => {
     return (
         <div className="flex flex-col h-full bg-sidebar border-r border-sidebar-border">
             {/* Logo Section */}
-            <div className="flex items-center gap-3 py-4 px-6 border-b border-sidebar-border">
-                <div className="relative  shrink-0">
-                    <Image
-                        src="/icons/logo.png"
-                        alt="logo"
-                        width={24}
-                        height={24}
-                        className="object-contain"
-                    />
-                </div>
-                <h3 className="text-2xl font-semibold text-sidebar-foreground">TechHub</h3>
+            <div className="flex items-center py-4 px-6 border-b border-sidebar-border">
+                <Link href="/admin-dashboard" className="flex items-center gap-3 cursor-pointer">
+                    <div className="relative  shrink-0">
+                        <Image
+                            src="/icons/logo.png"
+                            alt="logo"
+                            width={24}
+                            height={24}
+                            className="object-contain"
+                        />
+                    </div>
+                    <h3 className="text-2xl font-semibold text-sidebar-foreground cursor-pointer">TechHub</h3>
+                </Link>
             </div>
 
             {/* Navigation Items */}
