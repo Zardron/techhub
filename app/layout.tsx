@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/lib/theme-provider";
 import ConditionalNavbar from "@/components/ConditionalNavbar";
 import RoleBasedLayout from "@/components/RoleBasedLayout";
 import ConditionalContainer from "@/components/ConditionalContainer";
+import { Toaster } from "@/components/ui/sonner";
 
 const schibstedGrotesk = Schibsted_Grotesk({
     variable: "--font-schibsted-grotesk",
@@ -69,6 +70,7 @@ export default function RootLayout({
                             </ConditionalContainer>
                         </RoleBasedLayout>
                         <ConditionalFooter />
+                        <Toaster />
                     </QueryProvider>
                 </ThemeProvider>
             </body>

@@ -34,6 +34,7 @@ export interface DataTableProps<T> {
     loading?: boolean;
     emptyMessage?: string;
     className?: string;
+    actions?: (row: T) => React.ReactNode;
 }
 
 export function DataTable<T extends Record<string, any>>({
@@ -46,6 +47,7 @@ export function DataTable<T extends Record<string, any>>({
     loading = false,
     emptyMessage = "No data available",
     className,
+    actions,
 }: DataTableProps<T>) {
     const [searchTerm, setSearchTerm] = useState("");
     const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
@@ -146,24 +148,43 @@ export function DataTable<T extends Record<string, any>>({
                                     <label className="text-sm font-medium text-muted-foreground whitespace-nowrap">
                                         {filter.label}:
                                     </label>
-                                    <select
-                                        value={activeFilters[filter.key as string] || ""}
-                                        onChange={(e) =>
-                                            handleFilterChange(filter.key as string, e.target.value)
-                                        }
-                                        className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                                    >
-                                        <option value="">All</option>
-                                        {filter.options.map((option) => (
-                                            <option key={option.value} value={option.value}>
-                                                {option.label}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <div className="relative">
+                                        <select
+                                            value={activeFilters[filter.key as string] || ""}
+                                            onChange={(e) =>
+                                                handleFilterChange(filter.key as string, e.target.value)
+                                            }
+                                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer pr-9 min-w-[120px]"
+                                        >
+                                            <option value="">All</option>
+                                            {filter.options.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                            <svg
+                                                className="h-4 w-4 text-muted-foreground"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M19 9l-7 7-7-7"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
                                     {activeFilters[filter.key as string] && (
                                         <button
                                             onClick={() => clearFilter(filter.key as string)}
                                             className="text-muted-foreground hover:text-foreground"
+                                            type="button"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
@@ -200,13 +221,14 @@ export function DataTable<T extends Record<string, any>>({
                                     {column.header}
                                 </TableHead>
                             ))}
+                            {actions && <TableHead>Actions</TableHead>}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {loading ? (
                             <TableRow>
                                 <TableCell
-                                    colSpan={columns.length}
+                                    colSpan={columns.length + (actions ? 1 : 0)}
                                     className="text-center py-8 text-muted-foreground"
                                 >
                                     Loading...
@@ -215,7 +237,7 @@ export function DataTable<T extends Record<string, any>>({
                         ) : filteredData.length === 0 ? (
                             <TableRow>
                                 <TableCell
-                                    colSpan={columns.length}
+                                    colSpan={columns.length + (actions ? 1 : 0)}
                                     className="text-center py-8 text-muted-foreground"
                                 >
                                     {emptyMessage}
@@ -231,6 +253,11 @@ export function DataTable<T extends Record<string, any>>({
                                                 : row[column.key]?.toString() || "-"}
                                         </TableCell>
                                     ))}
+                                    {actions && (
+                                        <TableCell>
+                                            {actions(row)}
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             ))
                         )}

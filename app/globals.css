@@ -498,3 +498,28 @@
 .animate-glow-pulse {
   animation: glow-pulse 3s ease-in-out infinite;
 }
+
+/* Toast Icon Styling */
+[data-sonner-toast] [data-icon],
+[data-sonner-toast] [data-icon-wrapper] {
+  background-color: white !important;
+  color: black !important;
+  border-radius: 50% !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  padding: 0 !important;
+}
+
+[data-sonner-toast] [data-icon] svg,
+[data-sonner-toast] [data-icon-wrapper] svg {
+  color: black !important;
+  width: 12px !important;
+  height: 12px !important;
+  flex-shrink: 0 !important;
+}
