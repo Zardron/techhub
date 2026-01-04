@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Users, Plus, ChevronDown, Calendar, FolderKanbanIcon, Settings, Globe } from "lucide-react"
+import { Home, Users, Plus, ChevronDown, Calendar, FolderKanbanIcon, Settings, Globe, Ban } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
@@ -62,6 +62,11 @@ const sideBarItems = [
                 icon: Plus
             }
         ]
+    },
+    {
+        href: "/admin-dashboard/appeals",
+        label: "Ban Appeals",
+        icon: Ban,
     },
     {
         href: "/",

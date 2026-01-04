@@ -34,17 +34,19 @@ export default function AdminDashboardLayout({
     return (
         <div className="flex">
             <div
-                className={`h-screen ${sideBarCollapsed ? "w-0" : "w-64"
+                className={`fixed left-0 top-0 h-screen z-40 ${sideBarCollapsed ? "w-0" : "w-64"
                     } transition-all duration-300 overflow-hidden`}
             >
                 <SideBar />
             </div>
-            <div className="flex-1">
-                <Navbar
-                    sideBarCollapsed={sideBarCollapsed}
-                    setSideBarCollapsed={setSideBarCollapsed}
-                />
-                <div className="p-4">
+            <div className={`flex-1 transition-all duration-300 ${sideBarCollapsed ? "ml-0" : "ml-64"}`}>
+                <div className={`fixed top-0 right-0 z-30 transition-all duration-300 ${sideBarCollapsed ? "left-0" : "left-64"}`}>
+                    <Navbar
+                        sideBarCollapsed={sideBarCollapsed}
+                        setSideBarCollapsed={setSideBarCollapsed}
+                    />
+                </div>
+                <div className="p-4 pt-20">
                     <BreadCrumbs />
                     <div className="my-4">{children}</div>
                     <Footer />

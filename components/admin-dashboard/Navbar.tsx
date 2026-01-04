@@ -23,7 +23,7 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
     }
 
     return (
-        <div className="max-h-[65px] flex items-center justify-between p-4 border-b border-border-dark">
+        <div className="h-[65px] flex items-center justify-between p-4 border-b border-border-dark bg-background">
             <div>
                 {!sideBarCollapsed ?
                     <PanelRightOpen className="w-4 h-4 cursor-pointer text-foreground hover:text-blue transition-all duration-200 hover:scale-110" onClick={() => setSideBarCollapsed(true)} />
