@@ -52,5 +52,5 @@ const bookingSchema = new Schema<IBooking>(
 
 bookingSchema.index({ eventId: 1 });
 
-export const Booking: Model<IBooking> = mongoose.models.Booking || mongoose.model<IBooking>('Booking', bookingSchema);
+export default mongoose.models.Booking || mongoose.model<IBooking>('Booking', bookingSchema) as Model<IBooking>;
 
