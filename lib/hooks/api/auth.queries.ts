@@ -4,7 +4,7 @@ import { useAuthStore } from '@/lib/store/auth.store';
 interface SignInCredentials {
     email: string;
     password: string;
-    role: 'admin' | 'user';
+    role: 'admin' | 'user' | 'organizer';
 }
 
 interface SignUpCredentials {

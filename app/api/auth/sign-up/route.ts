@@ -18,8 +18,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             );
         }
 
-        // Check if user already exists
-        const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+        // Check if user already exists (exclude soft-deleted users to allow re-registration)
+        const existingUser = await User.findOne({ 
+            email: email.toLowerCase().trim(),
+            deleted: { $ne: true }
+        });
 
         if (existingUser) {
             return NextResponse.json(

@@ -20,8 +20,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
             );
         }
 
-        // Get user to get their email
-        const user = await User.findById(tokenPayload.id);
+        // Get user to get their email (exclude soft-deleted users)
+        const user = await User.findOne({ 
+            _id: tokenPayload.id,
+            deleted: { $ne: true }
+        });
 
         if (!user) {
             return NextResponse.json(
@@ -74,8 +77,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             );
         }
 
-        // Get user to get their email
-        const user = await User.findById(tokenPayload.id);
+        // Get user to get their email (exclude soft-deleted users)
+        const user = await User.findOne({ 
+            _id: tokenPayload.id,
+            deleted: { $ne: true }
+        });
 
         if (!user) {
             return NextResponse.json(

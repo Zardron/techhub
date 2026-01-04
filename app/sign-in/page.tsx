@@ -208,10 +208,22 @@ const SignInPage = () => {
 
                                         {/* Error Message */}
                                         {signInMutation.isError && (
-                                            <div className="bg-red-500/10 border border-red-500/50 rounded-lg px-4 py-2.5 text-red-400 text-xs">
-                                                {signInMutation.error instanceof Error
-                                                    ? signInMutation.error.message
-                                                    : 'Something went wrong. Please try again.'}
+                                            <div className="bg-red-500/10 border border-red-500/50 rounded-lg px-4 py-2.5 text-red-400 text-xs space-y-2">
+                                                <p>
+                                                    {signInMutation.error instanceof Error
+                                                        ? signInMutation.error.message
+                                                        : 'Something went wrong. Please try again.'}
+                                                </p>
+                                                {signInMutation.error instanceof Error &&
+                                                    signInMutation.error.message.toLowerCase().includes('banned') && (
+                                                        <Link
+                                                            href="/appeal-ban"
+                                                            className="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline mt-2"
+                                                        >
+                                                            Appeal your ban
+                                                            <span className="text-primary/60">→</span>
+                                                        </Link>
+                                                    )}
                                             </div>
                                         )}
 

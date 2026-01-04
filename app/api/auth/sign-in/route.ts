@@ -21,13 +21,24 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             );
         }
 
-        // Find user by email
-        const user = await User.findOne({ email: email.toLowerCase().trim() });
+        // Find user by email (exclude soft-deleted users)
+        const user = await User.findOne({ 
+            email: email.toLowerCase().trim(),
+            deleted: { $ne: true }
+        });
 
         if (!user) {
             return NextResponse.json(
                 { message: "Invalid email or password" },
                 { status: 401 }
+            );
+        }
+
+        // Check if user is banned
+        if (user.banned) {
+            return NextResponse.json(
+                { message: "Your account has been banned. Please contact support." },
+                { status: 403 }
             );
         }
 
@@ -85,13 +96,24 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
             );
         }
 
-        // Find user by ID
-        const user = await User.findById(tokenPayload.id);
+        // Find user by ID (exclude soft-deleted users)
+        const user = await User.findOne({ 
+            _id: tokenPayload.id,
+            deleted: { $ne: true }
+        });
 
         if (!user) {
             return NextResponse.json(
                 { message: "User not found" },
                 { status: 404 }
+            );
+        }
+
+        // Check if user is banned
+        if (user.banned) {
+            return NextResponse.json(
+                { message: "Your account has been banned. Please contact support." },
+                { status: 403 }
             );
         }
 
