@@ -4,6 +4,7 @@ import Appeal from "@/database/appeal.model";
 import User from "@/database/user.model";
 import { handleApiError, handleSuccessResponse } from "@/lib/utils";
 import { verifyAdminAccess } from "@/app/api/admin/route";
+import mongoose from "mongoose";
 
 // Protected route - Get all appeals (GET)
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -18,7 +19,35 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
             .sort({ createdAt: -1 })
             .lean();
 
-        // Get all banned users
+        // Get all unique user IDs from appeals
+        const userIds = appeals
+            .map((appeal) => appeal.userId)
+            .filter((id): id is string => Boolean(id))
+            .filter((id, index, self) => self.indexOf(id) === index); // Remove duplicates
+
+        // Look up all users referenced in appeals (regardless of banned status)
+        const usersMap = new Map();
+        if (userIds.length > 0) {
+            // Convert string IDs to ObjectIds for the query
+            const objectIds = userIds
+                .filter((id) => mongoose.Types.ObjectId.isValid(id))
+                .map((id) => new mongoose.Types.ObjectId(id));
+
+            if (objectIds.length > 0) {
+                const users = await User.find({
+                    _id: { $in: objectIds },
+                    deleted: { $ne: true }
+                })
+                    .select('_id name email role createdAt')
+                    .lean();
+
+                users.forEach((user) => {
+                    usersMap.set(user._id.toString(), user);
+                });
+            }
+        }
+
+        // Get all banned users (for the banned users without appeals section)
         const bannedUsers = await User.find({
             banned: true,
             deleted: { $ne: true }
@@ -29,7 +58,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
         // Match appeals with users
         const appealsWithUsers = appeals.map((appeal) => {
-            const user = bannedUsers.find((u) => u._id.toString() === appeal.userId);
+            const user = appeal.userId ? usersMap.get(appeal.userId) : null;
             return {
                 ...appeal,
                 _id: appeal._id.toString(),
