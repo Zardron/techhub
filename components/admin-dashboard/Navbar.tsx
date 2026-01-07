@@ -1,12 +1,42 @@
 "use client"
 
-import { LogOut, PanelLeftOpen, PanelRightOpen, User } from "lucide-react"
-import { useState } from "react"
+import { LogOut, PanelLeftOpen, PanelRightOpen, User, Clock } from "lucide-react"
+import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/hooks/use-auth"
 
 const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: boolean, setSideBarCollapsed: (collapsed: boolean) => void }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [currentTime, setCurrentTime] = useState(new Date())
+    const [is24Hour, setIs24Hour] = useState(false)
     const { user, clearAuth } = useAuth()
+
+    // Update time every second
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date())
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [])
+
+    // Format date and time
+    const formatDate = (date: Date): string => {
+        return date.toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        })
+    }
+
+    const formatTime = (date: Date): string => {
+        return date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: !is24Hour,
+        })
+    }
     // Handle sign out
     const handleSignOut = () => {
         clearAuth()
@@ -24,11 +54,49 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
 
     return (
         <div className="h-[65px] flex items-center justify-between p-4 border-b border-border-dark bg-background">
-            <div>
+            <div className="flex items-center gap-4">
                 {!sideBarCollapsed ?
                     <PanelRightOpen className="w-4 h-4 cursor-pointer text-foreground hover:text-blue transition-all duration-200 hover:scale-110" onClick={() => setSideBarCollapsed(true)} />
                     :
                     <PanelLeftOpen className="w-4 h-4 cursor-pointer text-foreground hover:text-blue transition-all duration-200 hover:scale-110" onClick={() => setSideBarCollapsed(false)} />}
+                
+                {/* Clock and Date */}
+                <div className="flex items-center gap-3 pl-4 border-l border-border-dark">
+                    <Clock className="w-4 h-4 text-muted-foreground" />
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-foreground">
+                            {formatTime(currentTime)}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                            • {formatDate(currentTime)}
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2 ml-1">
+                        <span className={`text-xs ${!is24Hour ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
+                            12h
+                        </span>
+                        <button
+                            onClick={() => setIs24Hour(!is24Hour)}
+                            className={`
+                                relative inline-flex h-5 w-10 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue/50 focus:ring-offset-2 cursor-pointer
+                                ${is24Hour ? 'bg-blue' : 'bg-muted'}
+                            `}
+                            role="switch"
+                            aria-checked={is24Hour}
+                            aria-label={`Time format: ${is24Hour ? '24-hour' : '12-hour'}. Click to toggle.`}
+                        >
+                            <span
+                                className={`
+                                    inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200
+                                    ${is24Hour ? 'translate-x-5' : 'translate-x-0.5'}
+                                `}
+                            />
+                        </button>
+                        <span className={`text-xs ${is24Hour ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
+                            24h
+                        </span>
+                    </div>
+                </div>
             </div>
             <div className="relative ml-2">
                 <button

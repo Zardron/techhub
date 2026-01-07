@@ -3,30 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import OrganizerLogo from "./OrganizerLogo";
+import { SAMPLE_ORGANIZERS } from "@/lib/constants";
 
 interface OrganizerSliderProps {
     organizers: string[];
 }
 
-// Dummy organizers for the slider
-const DUMMY_ORGANIZERS = [
-    "Meta",
-    "Google",
-    "Microsoft",
-    "Apple",
-    "Amazon",
-    "Netflix",
-    "GitHub",
-    "Vercel",
-    "Stripe",
-    "Shopify",
-    "MongoDB",
-    "Firebase",
-    "Adobe",
-    "Salesforce",
-    "Oracle",
-    "IBM",
-];
+// Use sample organizers from constants
+const DUMMY_ORGANIZERS = SAMPLE_ORGANIZERS;
 
 const OrganizerSlider = ({ organizers }: OrganizerSliderProps) => {
     const [isPaused, setIsPaused] = useState(false);
