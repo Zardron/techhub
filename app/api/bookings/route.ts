@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
-import { Booking } from "@/database/booking.model";
+import Booking from "@/database/booking.model";
 import Event from "@/database/event.model";
 import { verifyToken } from "@/lib/auth";
 import User from "@/database/user.model";
