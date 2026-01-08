@@ -6,6 +6,7 @@ export interface IUser extends Document {
     password: string;
     name: string;
     role: 'admin' | 'user' | 'organizer';
+    organizerId?: mongoose.Types.ObjectId; // Reference to Organizer if role is 'organizer'
     banned?: boolean;
     deleted?: boolean;
     createdAt: Date;
@@ -60,6 +61,10 @@ const userSchema = new Schema<IUser>(
             enum: ['admin', 'user', 'organizer'],
             required: [true, 'Role is required'],
         },
+        organizerId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Organizer',
+        },
         banned: {
             type: Boolean,
             default: false,
@@ -97,7 +102,11 @@ const userSchema = new Schema<IUser>(
 (userSchema as any).pre('save', async function (this: IUser) {
     if (this.isModified('email')) {
         try {
-            const existingUser = await mongoose.models.User?.findOne({ email: this.email });
+            // Exclude soft-deleted users from uniqueness check
+            const existingUser = await mongoose.models.User?.findOne({ 
+                email: this.email,
+                deleted: { $ne: true }
+            });
             if (existingUser && existingUser._id.toString() !== this._id.toString()) {
                 throw new Error('Email is already registered');
             }
@@ -118,6 +127,7 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
 
 // Indexes for fast lookups
 userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ organizerId: 1 });
 
 const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 export default User;
