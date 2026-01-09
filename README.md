@@ -1,6 +1,6 @@
-# TechHub - Tech Event Management Platform
+# TechEventX - Tech Event Management Platform
 
-A modern, full-stack platform for discovering, managing, and attending tech events worldwide. TechHub connects developers, innovators, and tech enthusiasts with hackathons, conferences, workshops, and more.
+A modern, full-stack platform for discovering, managing, and attending tech events worldwide. TechEventX connects developers, innovators, and tech enthusiasts with hackathons, conferences, workshops, and more.
 
 ## 🚀 Features
 
