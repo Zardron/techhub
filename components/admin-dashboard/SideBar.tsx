@@ -134,9 +134,9 @@ const SideBar = () => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-sidebar border-r border-sidebar-border">
+        <div className="flex flex-col h-full bg-sidebar border-r border-sidebar-border overflow-y-auto">
             {/* Logo Section */}
-            <div className="flex items-center py-3 sm:py-4 px-4 sm:px-6 border-b border-sidebar-border">
+            <div className="flex items-center py-4 px-4 sm:px-6 border-b border-sidebar-border shrink-0">
                 <Link href="/admin-dashboard" className="flex items-center gap-2 sm:gap-3 cursor-pointer">
                     <div className="relative shrink-0">
                         <Image
@@ -147,12 +147,12 @@ const SideBar = () => {
                             className="object-contain"
                         />
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-sidebar-foreground cursor-pointer whitespace-nowrap">TechHub</h3>
+                    <h3 className="text-xl sm:text-2xl font-semibold text-sidebar-foreground cursor-pointer">TechHub</h3>
                 </Link>
             </div>
 
             {/* Navigation Items */}
-            <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            <nav className="flex-1 px-2 sm:px-3 py-4 space-y-1 overflow-y-auto">
                 {sideBarItems.map((item) => {
                     const Icon = item.icon
                     const hasDropdown = !!item.dropdownItems
@@ -180,10 +180,10 @@ const SideBar = () => {
                                             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
                                         )}
 
-                                        <Icon className={`w-5 h-5 shrink-0 transition-transform duration-200 ${isItemActive ? 'text-primary' : 'group-hover:text-primary'
+                                        <Icon className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 transition-transform duration-200 ${isItemActive ? 'text-primary' : 'group-hover:text-primary'
                                             }`} />
 
-                                        <span className="flex-1 text-sm font-medium text-left">
+                                        <span className="flex-1 text-xs sm:text-sm font-medium text-left">
                                             {item.label}
                                         </span>
 
@@ -222,10 +222,10 @@ const SideBar = () => {
                                                             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full" />
                                                         )}
 
-                                                        <DropdownIcon className={`w-4 h-4 shrink-0 transition-colors duration-200 ${isDropdownActive ? 'text-primary' : 'group-hover:text-primary'
+                                                        <DropdownIcon className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 transition-colors duration-200 ${isDropdownActive ? 'text-primary' : 'group-hover:text-primary'
                                                             }`} />
 
-                                                        <span className="text-sm font-medium">
+                                                        <span className="text-xs sm:text-sm font-medium">
                                                             {dropdownItem.label}
                                                         </span>
                                                     </Link>
@@ -252,10 +252,10 @@ const SideBar = () => {
                                         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
                                     )}
 
-                                    <Icon className={`w-5 h-5 shrink-0 transition-colors duration-200 ${isItemActive ? 'text-primary' : 'group-hover:text-primary'
+                                    <Icon className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 transition-colors duration-200 ${isItemActive ? 'text-primary' : 'group-hover:text-primary'
                                         }`} />
 
-                                    <span className="flex-1 text-sm font-medium">
+                                    <span className="flex-1 text-xs sm:text-sm font-medium">
                                         {item.label}
                                     </span>
                                     
