@@ -53,25 +53,25 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
     }
 
     return (
-        <div className="h-[65px] flex items-center justify-between p-4 border-b border-border-dark bg-background">
-            <div className="flex items-center gap-4">
+        <div className="h-[65px] flex items-center justify-between p-2 md:p-4 border-b border-border-dark bg-background overflow-x-hidden">
+            <div className="flex items-center gap-2 md:gap-4">
                 {!sideBarCollapsed ?
-                    <PanelRightOpen className="w-4 h-4 cursor-pointer text-foreground hover:text-blue transition-all duration-200 hover:scale-110" onClick={() => setSideBarCollapsed(true)} />
+                    <PanelRightOpen className="w-5 h-5 md:w-4 md:h-4 cursor-pointer text-foreground hover:text-blue transition-all duration-200 hover:scale-110 shrink-0" onClick={() => setSideBarCollapsed(true)} />
                     :
-                    <PanelLeftOpen className="w-4 h-4 cursor-pointer text-foreground hover:text-blue transition-all duration-200 hover:scale-110" onClick={() => setSideBarCollapsed(false)} />}
+                    <PanelLeftOpen className="w-5 h-5 md:w-4 md:h-4 cursor-pointer text-foreground hover:text-blue transition-all duration-200 hover:scale-110 shrink-0" onClick={() => setSideBarCollapsed(false)} />}
                 
-                {/* Clock and Date */}
-                <div className="flex items-center gap-3 pl-4 border-l border-border-dark">
-                    <Clock className="w-4 h-4 text-muted-foreground" />
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-foreground">
+                {/* Clock and Date - hidden on small mobile, visible on larger screens */}
+                <div className="hidden sm:flex items-center gap-2 md:gap-3 pl-2 md:pl-4 border-l border-border-dark">
+                    <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
+                    <div className="flex items-center gap-1 md:gap-2">
+                        <span className="text-xs md:text-sm font-semibold text-foreground whitespace-nowrap">
                             {formatTime(currentTime)}
                         </span>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="hidden md:inline text-xs text-muted-foreground">
                             • {formatDate(currentTime)}
                         </span>
                     </div>
-                    <div className="flex items-center gap-2 ml-1">
+                    <div className="hidden lg:flex items-center gap-2 ml-1">
                         <span className={`text-xs ${!is24Hour ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
                             12h
                         </span>
@@ -102,15 +102,18 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className={`
-                                        flex items-center gap-3 px-2 py-1 rounded-xl transition-all duration-300
-                                    `}
+                        flex items-center gap-1 md:gap-3 px-1 md:px-2 py-1 rounded-xl transition-all duration-300
+                    `}
                     aria-label="User menu"
                 >
-                    <span className="text-lg font-semibold text-foreground truncate">
+                    <span className="hidden sm:inline text-sm md:text-lg font-semibold text-foreground truncate max-w-[120px] md:max-w-none">
                         Welcome, <span className="text-blue capitalize">{user?.name}</span>
                     </span>
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/30 via-primary/20 to-blue/30 border-2 border-blue/40 flex items-center justify-center text-xs font-bold text-foreground shadow-[0_0_15px_rgba(148,234,255,0.2)] cursor-pointer">
-                        {getUserInitials(user?.name) || <User className="w-4 h-4" />}
+                    <span className="sm:hidden text-sm font-semibold text-foreground truncate max-w-[80px]">
+                        <span className="text-blue capitalize">{user?.name?.split(' ')[0]}</span>
+                    </span>
+                    <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-primary/30 via-primary/20 to-blue/30 border-2 border-blue/40 flex items-center justify-center text-xs font-bold text-foreground shadow-[0_0_15px_rgba(148,234,255,0.2)] cursor-pointer shrink-0">
+                        {getUserInitials(user?.name) || <User className="w-3 h-3 md:w-4 md:h-4" />}
                     </div>
                 </button>
 
