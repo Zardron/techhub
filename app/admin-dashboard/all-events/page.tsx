@@ -131,24 +131,25 @@ export default function AllEventsPage() {
     ];
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
+        <div className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold">All Events</h1>
-                    <p className="text-muted-foreground mt-2">
+                    <h1 className="text-2xl sm:text-3xl font-bold">All Events</h1>
+                    <p className="text-muted-foreground mt-2 text-sm sm:text-base">
                         View and manage all events on the platform
                     </p>
                 </div>
                 <Link
                     href="/admin-dashboard/add-events"
-                    className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors cursor-pointer text-sm sm:text-base"
                 >
                     <PlusIcon className="w-4 h-4" />
-                    Add Event
+                    <span className="hidden sm:inline">Add Event</span>
+                    <span className="sm:hidden">Add</span>
                 </Link>
             </div>
 
-            <div className="border rounded-lg p-6">
+            <div className="border rounded-lg p-3 sm:p-6 overflow-x-auto">
                 <DataTable
                     data={events}
                     columns={columns}
