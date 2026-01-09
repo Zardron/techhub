@@ -13,10 +13,25 @@ export default function AdminDashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const [sideBarCollapsed, setSideBarCollapsed] = useState(true); // Start collapsed on mobile
-    const [isInitialized, setIsInitialized] = useState(false);
+    const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const { user, isAuthenticated, isInitializing } = useAuth();
     const router = useRouter();
+
+    // Detect mobile screen size
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+            // On mobile, sidebar should be collapsed by default
+            if (window.innerWidth < 768) {
+                setSideBarCollapsed(true);
+            }
+        };
+
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     useEffect(() => {
         // Wait for auth initialization to complete before redirecting
@@ -24,32 +39,6 @@ export default function AdminDashboardLayout({
             router.push("/sign-in");
         }
     }, [user, isAuthenticated, isInitializing, router]);
-
-    // Set initial sidebar state based on screen size (only once on mount)
-    useEffect(() => {
-        if (!isInitialized) {
-            // On desktop (md and up), sidebar should be expanded by default
-            if (window.innerWidth >= 768) {
-                setSideBarCollapsed(false);
-            }
-            setIsInitialized(true);
-        }
-    }, [isInitialized]);
-
-    // Prevent horizontal scroll on body
-    useEffect(() => {
-        document.documentElement.style.overflowX = 'hidden';
-        document.body.style.overflowX = 'hidden';
-        document.documentElement.style.maxWidth = '100vw';
-        document.body.style.maxWidth = '100vw';
-        
-        return () => {
-            document.documentElement.style.overflowX = '';
-            document.body.style.overflowX = '';
-            document.documentElement.style.maxWidth = '';
-            document.body.style.maxWidth = '';
-        };
-    }, []);
 
     // Show loading state while initializing auth
     if (isInitializing) {
@@ -69,42 +58,46 @@ export default function AdminDashboardLayout({
     }
 
     return (
-        <div className="flex overflow-x-hidden w-full max-w-full">
-                {/* Mobile backdrop overlay */}
-                {!sideBarCollapsed && (
-                    <div
-                        className="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity duration-300"
-                        onClick={() => setSideBarCollapsed(true)}
-                    />
-                )}
-
-            {/* Sidebar - overlay on mobile, fixed on desktop */}
+        <div className="flex">
+            {/* Sidebar - hidden on mobile when collapsed, shown as overlay when open */}
             <div
-                className={`fixed left-0 top-0 h-screen z-40 transition-all duration-300 overflow-hidden
+                className={`
+                    fixed left-0 top-0 h-screen z-40 transition-all duration-300
                     ${sideBarCollapsed 
                         ? "w-0 -translate-x-full md:translate-x-0" 
                         : "w-64 translate-x-0"
                     }
-                    md:translate-x-0
+                    ${isMobile && !sideBarCollapsed ? "shadow-2xl" : ""}
                 `}
             >
                 <SideBar />
             </div>
 
+            {/* Overlay for mobile when sidebar is open */}
+            {isMobile && !sideBarCollapsed && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-30"
+                    onClick={() => setSideBarCollapsed(true)}
+                />
+            )}
+
             {/* Main content area */}
-            <div className={`flex-1 w-full min-w-0 max-w-full transition-all duration-300 overflow-x-hidden ${sideBarCollapsed ? "md:ml-0" : "md:ml-64"}`}>
-                {/* Navbar - full width on mobile, adjusted on desktop */}
-                <div className={`fixed top-0 z-30 transition-all duration-300 w-full max-w-full right-0 ${sideBarCollapsed ? "md:left-0" : "md:left-64"}`}>
+            <div className={`
+                flex-1 transition-all duration-300 w-full
+                ${sideBarCollapsed || isMobile ? "ml-0" : "ml-0 md:ml-64"}
+            `}>
+                <div className={`
+                    fixed top-0 right-0 z-30 transition-all duration-300 w-full
+                    ${sideBarCollapsed || isMobile ? "left-0" : "left-0 md:left-64"}
+                `}>
                     <Navbar
                         sideBarCollapsed={sideBarCollapsed}
                         setSideBarCollapsed={setSideBarCollapsed}
                     />
                 </div>
-                
-                {/* Content */}
-                <div className="p-3 sm:p-4 pt-20 md:pt-20 overflow-x-hidden max-w-full">
+                <div className="p-10 sm:p-4 pt-24 sm:pt-20">
                     <BreadCrumbs />
-                    <div className="my-4 overflow-x-hidden max-w-full">{children}</div>
+                    <div className="my-4">{children}</div>
                     <Footer />
                 </div>
             </div>
