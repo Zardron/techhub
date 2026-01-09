@@ -74,7 +74,7 @@ export default function ContactPage() {
                                 </div>
                             </div>
                             <p className="text-light-200 text-sm leading-relaxed">
-                                TechHub serves developers worldwide. We're a digital-first platform connecting the global tech community.
+                                TechEventX serves developers worldwide. We're a digital-first platform connecting the global tech community.
                             </p>
                         </div>
 
@@ -214,7 +214,7 @@ export default function ContactPage() {
                             </p>
                         </div>
                         <div className="glass p-6 rounded-xl border border-blue/10 hover:border-blue/30 transition-all duration-300">
-                            <h3 className="text-lg font-semibold mb-2">Can I list my event on TechHub?</h3>
+                            <h3 className="text-lg font-semibold mb-2">Can I list my event on TechEventX?</h3>
                             <p className="text-light-200 text-sm leading-relaxed">
                                 Yes! We welcome event organizers. Select "Partnership Opportunity" in the contact form and we'll guide you through the process.
                             </p>
@@ -228,7 +228,7 @@ export default function ContactPage() {
                         <div className="glass p-6 rounded-xl border border-blue/10 hover:border-blue/30 transition-all duration-300">
                             <h3 className="text-lg font-semibold mb-2">Do you have a mobile app?</h3>
                             <p className="text-light-200 text-sm leading-relaxed">
-                                TechHub is fully responsive and works great on mobile browsers. We're working on native apps for iOS and Android.
+                                TechEventX is fully responsive and works great on mobile browsers. We're working on native apps for iOS and Android.
                             </p>
                         </div>
                     </div>

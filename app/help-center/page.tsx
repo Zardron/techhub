@@ -18,8 +18,8 @@ const faqData: FAQItem[] = [
     },
     {
         category: "Getting Started",
-        question: "Is TechHub free to use?",
-        answer: "Yes! Creating an account and browsing events is completely free. Some events may have registration fees set by the organizers, but using the TechHub platform itself is free."
+        question: "Is TechEventX free to use?",
+        answer: "Yes! Creating an account and browsing events is completely free. Some events may have registration fees set by the organizers, but using the TechEventX platform itself is free."
     },
     {
         category: "Getting Started",
@@ -59,7 +59,7 @@ const faqData: FAQItem[] = [
     {
         category: "Events",
         question: "What types of events are available?",
-        answer: "TechHub features a wide variety of tech events including hackathons, developer conferences, workshops, meetups, webinars, and more. Events can be online, offline, or hybrid formats."
+        answer: "TechEventX features a wide variety of tech events including hackathons, developer conferences, workshops, meetups, webinars, and more. Events can be online, offline, or hybrid formats."
     },
     {
         category: "Events",

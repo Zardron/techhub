@@ -12,7 +12,7 @@ export default function AboutUsPage() {
                     <div className="text-center mb-12">
                         <div className="inline-block mb-6">
                             <div className="glass px-6 py-2 rounded-full border border-blue/30 backdrop-blur-xl">
-                                <span className="text-blue text-sm font-medium">About TechHub</span>
+                                <span className="text-blue text-sm font-medium">About TechEventX</span>
                             </div>
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
@@ -40,10 +40,10 @@ export default function AboutUsPage() {
                                     Our Mission
                                 </h2>
                                 <p className="text-light-100 text-base leading-relaxed mb-4">
-                                    At TechHub, we believe that great ideas are born when passionate developers come together. Our mission is to create a seamless platform that connects tech enthusiasts with events that inspire, educate, and transform careers.
+                                    At TechEventX, we believe that great ideas are born when passionate developers come together. Our mission is to create a seamless platform that connects tech enthusiasts with events that inspire, educate, and transform careers.
                                 </p>
                                 <p className="text-light-200 text-sm leading-relaxed">
-                                    We're committed to making tech events accessible to everyone, regardless of location, experience level, or background. Whether you're a seasoned developer or just starting your journey, TechHub is your gateway to the global tech community.
+                                    We're committed to making tech events accessible to everyone, regardless of location, experience level, or background. Whether you're a seasoned developer or just starting your journey, TechEventX is your gateway to the global tech community.
                                 </p>
                             </div>
                             <div className="flex items-center justify-center">

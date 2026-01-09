@@ -24,7 +24,7 @@ export default function TermsOfServicePage() {
                             </span>
                         </h1>
                         <p className="text-light-100 text-lg max-w-3xl mx-auto">
-                            Please read these terms carefully before using TechHub. By accessing or using our platform, you agree to be bound by these terms.
+                            Please read these terms carefully before using TechEventX. By accessing or using our platform, you agree to be bound by these terms.
                         </p>
                         <p className="text-light-200 text-sm mt-4">
                             Last updated: {lastUpdated}
@@ -42,7 +42,7 @@ export default function TermsOfServicePage() {
                             1. Acceptance of Terms
                         </h2>
                         <p className="text-light-200 text-sm leading-relaxed">
-                            By accessing or using TechHub ("the Platform", "we", "us", "our"), you agree to comply with and be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Platform. These Terms apply to all users, including visitors, registered users, and event organizers.
+                            By accessing or using TechEventX ("the Platform", "we", "us", "our"), you agree to comply with and be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Platform. These Terms apply to all users, including visitors, registered users, and event organizers.
                         </p>
                     </div>
                 </AnimateOnScroll>
@@ -54,7 +54,7 @@ export default function TermsOfServicePage() {
                             2. Description of Service
                         </h2>
                         <div className="space-y-3 text-light-200 text-sm leading-relaxed">
-                            <p>TechHub is a platform that connects users with technology events, including but not limited to:</p>
+                            <p>TechEventX is a platform that connects users with technology events, including but not limited to:</p>
                             <ul className="list-disc list-inside space-y-2 ml-4">
                                 <li>Hackathons and coding competitions</li>
                                 <li>Developer conferences and workshops</li>
@@ -99,7 +99,7 @@ export default function TermsOfServicePage() {
                         <div className="space-y-4 text-light-200 text-sm leading-relaxed">
                             <div>
                                 <h3 className="text-lg font-semibold text-light-100 mb-2">Booking Process</h3>
-                                <p>When you book an event through our Platform, you enter into a direct agreement with the event organizer. TechHub acts as a facilitator and is not a party to this agreement.</p>
+                                <p>When you book an event through our Platform, you enter into a direct agreement with the event organizer. TechEventX acts as a facilitator and is not a party to this agreement.</p>
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-light-100 mb-2">Cancellation and Refunds</h3>
@@ -142,7 +142,7 @@ export default function TermsOfServicePage() {
                             6. Intellectual Property
                         </h2>
                         <div className="space-y-3 text-light-200 text-sm leading-relaxed">
-                            <p>The Platform and its original content, features, and functionality are owned by TechHub and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.</p>
+                            <p>The Platform and its original content, features, and functionality are owned by TechEventX and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.</p>
                             <p>You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our Platform without our prior written consent.</p>
                             <p>Event content, including descriptions, images, and materials, are the property of their respective event organizers or licensors.</p>
                         </div>
@@ -166,7 +166,7 @@ export default function TermsOfServicePage() {
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-light-100 mb-2">Limitation of Liability</h3>
-                                <p>To the maximum extent permitted by law, TechHub shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Platform.</p>
+                                <p>To the maximum extent permitted by law, TechEventX shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Platform.</p>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@ export default function TermsOfServicePage() {
                             8. Indemnification
                         </h2>
                         <p className="text-light-200 text-sm leading-relaxed">
-                            You agree to defend, indemnify, and hold harmless TechHub, its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorney's fees, arising out of or in any way connected with your access to or use of the Platform, your violation of these Terms, or your violation of any third-party rights.
+                            You agree to defend, indemnify, and hold harmless TechEventX, its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorney's fees, arising out of or in any way connected with your access to or use of the Platform, your violation of these Terms, or your violation of any third-party rights.
                         </p>
                     </div>
                 </AnimateOnScroll>
