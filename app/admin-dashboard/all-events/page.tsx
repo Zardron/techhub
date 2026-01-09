@@ -19,7 +19,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function AllEventsPage() {
@@ -38,31 +38,25 @@ export default function AllEventsPage() {
     const confirmDelete = async () => {
         if (!selectedEvent) return;
 
-        try {
-            const response = await fetch(`/api/events/${selectedEvent.slug}`, {
-                method: 'DELETE',
-            });
-
+        const deletePromise = fetch(`/api/events/${selectedEvent.slug}`, {
+            method: 'DELETE',
+        }).then(async (response) => {
             const data = await response.json();
-
             if (!response.ok) {
                 throw new Error(data.message || 'Failed to delete event');
             }
-
-            toast.success("Event Deleted Successfully!", {
-                description: `Event "${selectedEvent.title}" has been deleted.`,
-                duration: 5000,
-            });
             setDeleteDialogOpen(false);
             setSelectedEvent(null);
             // Refetch events
             queryClient.invalidateQueries({ queryKey: ['events'] });
-        } catch (error) {
-            toast.error("Failed to Delete Event", {
-                description: error instanceof Error ? error.message : "An error occurred while deleting the event.",
-                duration: 5000,
-            });
-        }
+            return data;
+        });
+
+        toast.promise(deletePromise, {
+            loading: 'Deleting event...',
+            success: `Event "${selectedEvent.title}" has been deleted.`,
+            error: (error) => error instanceof Error ? error.message : "An error occurred while deleting the event.",
+        });
     };
 
     const columns: Column<IEvent>[] = [

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FormInput } from "@/components/ui/form-input";
 import { FormSelect } from "@/components/ui/form-select";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { 
     Settings as SettingsIcon, 
     Shield, 
@@ -126,8 +126,7 @@ export default function SettingsPage() {
         setErrors({});
 
         if (!validateForm()) {
-            toast.error("Validation Error", {
-                description: "Please fix the errors in the form before saving.",
+            toast.error("Please fix the errors in the form before saving.", {
                 duration: 5000,
             });
             return;
@@ -138,8 +137,7 @@ export default function SettingsPage() {
         // Simulate API call
         setTimeout(() => {
             setIsSaving(false);
-            toast.success("Settings Saved Successfully!", {
-                description: "Your platform settings have been updated.",
+            toast.success("Your platform settings have been updated.", {
                 duration: 5000,
             });
         }, 1500);

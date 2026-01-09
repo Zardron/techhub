@@ -5,7 +5,7 @@ import { useCreateEvent } from "@/lib/hooks/api/events.queries";
 import { FormInput } from "@/components/ui/form-input";
 import { FormSelect } from "@/components/ui/form-select";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { X, Plus } from "lucide-react";
 import { useOrganizers } from "@/lib/hooks/use-organizers";
 
@@ -145,12 +145,8 @@ export default function AddEventsPage() {
             formDataToSend.append("imageUrl", imageUrl.trim());
         }
 
-        createEventMutation.mutate(formDataToSend, {
-            onSuccess: (data) => {
-                toast.success("Event Created Successfully!", {
-                    description: data.message || `Event "${formData.title.trim()}" has been created.`,
-                    duration: 5000,
-                });
+        const createPromise = createEventMutation.mutateAsync(formDataToSend)
+            .then((data) => {
                 // Reset form
                 setFormData({
                     title: "",
@@ -172,13 +168,13 @@ export default function AddEventsPage() {
                 setImageSource("file");
                 setTagInput("");
                 setAgendaInput("");
-            },
-            onError: (error) => {
-                toast.error("Failed to Create Event", {
-                    description: error.message || "An error occurred while creating the event. Please try again.",
-                    duration: 5000,
-                });
-            },
+                return data;
+            });
+
+        toast.promise(createPromise, {
+            loading: 'Creating event...',
+            success: (data) => data.message || `Event "${formData.title.trim()}" has been created.`,
+            error: (error) => error instanceof Error ? error.message : "An error occurred while creating the event. Please try again.",
         });
     };
 
@@ -552,7 +548,7 @@ export default function AddEventsPage() {
                                     { value: "", label: "Select an organizer..." },
                                     ...organizers.map((org) => ({
                                         value: org.name,
-                                        label: `${org.name}${org.isSample ? " (Sample)" : ""}`,
+                                        label: org.name,
                                     })),
                                 ]}
                                 error={errors.organizer}

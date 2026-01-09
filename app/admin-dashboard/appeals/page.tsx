@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Ban, CheckCircle2, XCircle, Clock, MessageSquare, User, Mail, Calendar } from "lucide-react";
 import { useGetAppeals, useUpdateAppeal, type AppealWithUser, type BannedUser } from "@/lib/hooks/api/appeals.queries";
 import { useBanUser } from "@/lib/hooks/api/user.queries";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
@@ -58,61 +58,39 @@ export default function AppealsPage() {
         setActionDialogOpen(true);
     };
 
-    const confirmAction = () => {
+    const confirmAction = async () => {
         if (!selectedAppeal || !actionType) return;
 
         const status = actionType === 'approve' ? 'approved' : 'rejected';
 
-        updateAppealMutation.mutate(
-            {
-                appealId: selectedAppeal._id,
-                status,
-                adminNotes: adminNotes.trim() || undefined,
-            },
-            {
-                onSuccess: () => {
-                    toast.success(
-                        actionType === 'approve' ? "Appeal Approved" : "Appeal Rejected",
-                        {
-                            description: actionType === 'approve'
-                                ? "The user has been unbanned."
-                                : "The appeal has been rejected.",
-                            duration: 5000,
-                        }
-                    );
-                    setActionDialogOpen(false);
-                    setSelectedAppeal(null);
-                    setActionType(null);
-                    setAdminNotes("");
-                },
-                onError: (error) => {
-                    toast.error("Failed to update appeal", {
-                        description: error.message || "An error occurred.",
-                        duration: 5000,
-                    });
-                },
-            }
-        );
+        const updatePromise = updateAppealMutation.mutateAsync({
+            appealId: selectedAppeal._id,
+            status,
+            adminNotes: adminNotes.trim() || undefined,
+        }).then(() => {
+            setActionDialogOpen(false);
+            setSelectedAppeal(null);
+            setActionType(null);
+            setAdminNotes("");
+        });
+
+        toast.promise(updatePromise, {
+            loading: `${actionType === 'approve' ? 'Approving' : 'Rejecting'} appeal...`,
+            success: actionType === 'approve'
+                ? "The user has been unbanned."
+                : "The appeal has been rejected.",
+            error: (error) => error instanceof Error ? error.message : "An error occurred.",
+        });
     };
 
-    const handleUnban = (userId: string) => {
-        banUserMutation.mutate(
-            { userId, action: 'unban' },
-            {
-                onSuccess: () => {
-                    toast.success("User Unbanned", {
-                        description: "The user has been successfully unbanned.",
-                        duration: 5000,
-                    });
-                },
-                onError: (error) => {
-                    toast.error("Failed to unban user", {
-                        description: error.message || "An error occurred.",
-                        duration: 5000,
-                    });
-                },
-            }
-        );
+    const handleUnban = async (userId: string) => {
+        const unbanPromise = banUserMutation.mutateAsync({ userId, action: 'unban' });
+
+        toast.promise(unbanPromise, {
+            loading: 'Unbanning user...',
+            success: "The user has been successfully unbanned.",
+            error: (error) => error instanceof Error ? error.message : "An error occurred.",
+        });
     };
 
     if (isLoading) {

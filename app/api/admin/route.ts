@@ -1,8 +1,10 @@
 import User from "@/database/user.model";
+import Organizer from "@/database/organizer.model";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiError, handleSuccessResponse } from "@/lib/utils";
 import { verifyToken } from "@/lib/auth";
+import mongoose from "mongoose";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
     try {
@@ -77,7 +79,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             );
         }
 
-        const { name, email, password, role } = await req.json();
+        const { name, email, password, role, organizerName } = await req.json();
 
         // Validate input
         if (!name || !email || !password || !role) {
@@ -94,6 +96,32 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                 { message: "Role must be one of: admin, user, organizer" },
                 { status: 400 }
             );
+        }
+
+        // If role is organizer, validate and find organizer
+        let organizerId: mongoose.Types.ObjectId | undefined;
+        if (normalizedRole === 'organizer') {
+            if (!organizerName || !organizerName.trim()) {
+                return NextResponse.json(
+                    { message: "Organizer name is required when creating an organizer user" },
+                    { status: 400 }
+                );
+            }
+
+            // Find the organizer by name (exclude soft-deleted organizers)
+            const organizer = await Organizer.findOne({
+                name: organizerName.trim(),
+                deleted: { $ne: true }
+            });
+
+            if (!organizer) {
+                return NextResponse.json(
+                    { message: "Organizer not found" },
+                    { status: 404 }
+                );
+            }
+
+            organizerId = organizer._id;
         }
 
         // Check if user already exists (exclude soft-deleted users)
@@ -115,6 +143,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             email: email.toLowerCase().trim(),
             role: normalizedRole,
             password: password, // Will be hashed automatically by the model
+            organizerId: organizerId, // Set organizerId if role is organizer
         });
 
         // Return user data (excluding password)
@@ -123,6 +152,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             name: newUser.name,
             email: newUser.email,
             role: newUser.role,
+            organizerId: newUser.organizerId?.toString(),
             createdAt: newUser.createdAt,
             updatedAt: newUser.updatedAt,
         };

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useCreateOrganizer } from "@/lib/hooks/api/organizers.queries";
 import { FormInput } from "@/components/ui/form-input";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 export default function AddOrganizersPage() {
     const DEFAULT_PASSWORD = "P@ssword123!";
@@ -84,38 +84,30 @@ export default function AddOrganizersPage() {
             return;
         }
 
-        createOrganizerMutation.mutate(
-            {
-                name: formData.organizerName.trim(),
-                fullName: formData.fullName.trim(),
-                email: formData.email.trim(),
-                password: formData.password,
-            },
-            {
-                onSuccess: (data) => {
-                    toast.success("Organizer Created Successfully!", {
-                        description: data.message || `Organizer "${formData.organizerName.trim()}" has been created.`,
-                        duration: 5000,
-                    });
-                    // Reset form
-                    setFormData({
-                        organizerName: "",
-                        fullName: "",
-                        email: "",
-                        password: "",
-                        confirmPassword: "",
-                    });
-                    setUseAutoEmail(false);
-                    setUseDefaultPassword(false);
-                },
-                onError: (error) => {
-                    toast.error("Failed to Create Organizer", {
-                        description: error.message || "An error occurred while creating the organizer. Please try again.",
-                        duration: 5000,
-                    });
-                },
-            }
-        );
+        const createPromise = createOrganizerMutation.mutateAsync({
+            name: formData.organizerName.trim(),
+            fullName: formData.fullName.trim(),
+            email: formData.email.trim(),
+            password: formData.password,
+        }).then((data) => {
+            // Reset form
+            setFormData({
+                organizerName: "",
+                fullName: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+            });
+            setUseAutoEmail(false);
+            setUseDefaultPassword(false);
+            return data;
+        });
+
+        toast.promise(createPromise, {
+            loading: 'Creating organizer...',
+            success: (data) => data.message || `Organizer "${formData.organizerName.trim()}" has been created.`,
+            error: (error) => error instanceof Error ? error.message : "An error occurred while creating the organizer. Please try again.",
+        });
     };
 
     const handleChange = (

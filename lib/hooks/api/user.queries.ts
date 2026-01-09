@@ -10,6 +10,7 @@ export interface CreateUserData {
     email: string;
     password: string;
     role: 'admin' | 'user' | 'organizer';
+    organizerName?: string;
 }
 
 export interface CreateUserResponse {

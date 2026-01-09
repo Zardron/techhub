@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useCreateUser } from "@/lib/hooks/api/user.queries";
 import { FormInput } from "@/components/ui/form-input";
 import { FormSelect } from "@/components/ui/form-select";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { useOrganizers } from "@/lib/hooks/use-organizers";
+import toast from "react-hot-toast";
+import { useGetAllOrganizers } from "@/lib/hooks/api/organizers.queries";
 
 export default function AddUsersPage() {
-    const { organizers, isLoading: isLoadingOrganizers } = useOrganizers();
+    const searchParams = useSearchParams();
+    const { data: organizersData, isLoading: isLoadingOrganizers } = useGetAllOrganizers();
+    const organizers = organizersData?.data || [];
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -19,6 +22,45 @@ export default function AddUsersPage() {
         organizerName: "",
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+    // Generate email from organizer name: @[organizername].com (no spaces, lowercase)
+    const generateEmailFromOrganizerName = (organizerName: string): string => {
+        if (!organizerName.trim()) return "";
+        // Remove "Admin" suffix if present, convert to lowercase, remove spaces and special chars
+        const cleanName = organizerName
+            .replace(/\s+Admin$/i, '') // Remove " Admin" at the end
+            .toLowerCase()
+            .replace(/\s+/g, '') // Remove all spaces
+            .replace(/[^a-z0-9]/g, ''); // Remove special characters, keep only alphanumeric
+        return `@${cleanName}.com`;
+    };
+
+    // Read query parameters and pre-fill form
+    useEffect(() => {
+        const role = searchParams.get("role");
+        const organizerId = searchParams.get("organizerId");
+        const organizerName = searchParams.get("organizerName");
+
+        if (role === "organizer") {
+            // If organizerId is provided, find the organizer by ID
+            let selectedOrganizerName = organizerName || "";
+            
+            if (organizerId && organizers.length > 0) {
+                const foundOrganizer = organizers.find(org => org.id === organizerId);
+                if (foundOrganizer) {
+                    selectedOrganizerName = foundOrganizer.name;
+                }
+            }
+
+            const autoEmail = selectedOrganizerName ? generateEmailFromOrganizerName(selectedOrganizerName) : "";
+            setFormData((prev) => ({
+                ...prev,
+                role: "organizer",
+                organizerName: selectedOrganizerName,
+                email: autoEmail,
+            }));
+        }
+    }, [searchParams, organizers]);
 
     const createUserMutation = useCreateUser();
 
@@ -83,39 +125,34 @@ export default function AddUsersPage() {
             return;
         }
 
-        createUserMutation.mutate(
-            {
-                name: formData.role === "organizer" && formData.organizerName 
-                    ? formData.organizerName.trim() 
-                    : formData.name.trim(),
-                email: formData.email.trim(),
-                password: formData.password,
-                role: formData.role,
-            },
-            {
-                onSuccess: (data) => {
-                    toast.success("User Created Successfully!", {
-                        description: data.message || `User "${formData.role === "organizer" && formData.organizerName ? formData.organizerName : formData.name.trim()}" has been created with ${formData.role} role.`,
-                        duration: 5000,
-                    });
-                    // Reset form
-                    setFormData({
-                        name: "",
-                        email: "",
-                        password: "",
-                        confirmPassword: "",
-                        role: "user",
-                        organizerName: "",
-                    });
-                },
-                onError: (error) => {
-                    toast.error("Failed to Create User", {
-                        description: error.message || "An error occurred while creating the user. Please try again.",
-                        duration: 5000,
-                    });
-                },
-            }
-        );
+        const createPromise = createUserMutation.mutateAsync({
+            name: formData.role === "organizer" && formData.organizerName 
+                ? formData.organizerName.trim() 
+                : formData.name.trim(),
+            email: formData.email.trim(),
+            password: formData.password,
+            role: formData.role,
+            organizerName: formData.role === "organizer" && formData.organizerName 
+                ? formData.organizerName.trim() 
+                : undefined,
+        }).then((data) => {
+            // Reset form
+            setFormData({
+                name: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+                role: "user",
+                organizerName: "",
+            });
+            return data;
+        });
+
+        toast.promise(createPromise, {
+            loading: 'Creating user...',
+            success: (data) => data.message || `User "${formData.role === "organizer" && formData.organizerName ? formData.organizerName : formData.name.trim()}" has been created with ${formData.role} role.`,
+            error: (error) => error instanceof Error ? error.message : "An error occurred while creating the user. Please try again.",
+        });
     };
 
     const handleChange = (
@@ -251,7 +288,7 @@ export default function AddUsersPage() {
                                             { value: "", label: "Select an organizer..." },
                                             ...organizers.map((org) => ({
                                                 value: org.name,
-                                                label: `${org.name}${org.isSample ? " (Sample)" : ""}`,
+                                                label: org.name,
                                             })),
                                         ]}
                                         error={errors.organizerName}

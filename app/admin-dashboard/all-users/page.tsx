@@ -7,7 +7,7 @@ import { useGetAllUsers, useDeleteUser, useBanUser } from "@/lib/hooks/api/user.
 import { DataTable, type Column } from "@/components/DataTable";
 import { IUser } from "@/database/user.model";
 import { useAuthStore } from "@/lib/store/auth.store";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
@@ -44,53 +44,39 @@ export default function AllUsersPage() {
         setBanDialogOpen(true);
     };
 
-    const confirmDelete = () => {
+    const confirmDelete = async () => {
         if (!selectedUser) return;
 
-        deleteUserMutation.mutate(selectedUser._id.toString(), {
-            onSuccess: () => {
-                toast.success("User Deleted Successfully!", {
-                    description: `User "${selectedUser.name}" has been deleted.`,
-                    duration: 5000,
-                });
+        const deletePromise = deleteUserMutation.mutateAsync(selectedUser._id.toString())
+            .then(() => {
                 setDeleteDialogOpen(false);
                 setSelectedUser(null);
-            },
-            onError: (error) => {
-                toast.error("Failed to Delete User", {
-                    description: error.message || "An error occurred while deleting the user.",
-                    duration: 5000,
-                });
-            },
+            });
+
+        toast.promise(deletePromise, {
+            loading: 'Deleting user...',
+            success: `User "${selectedUser.name}" has been deleted.`,
+            error: (error) => error instanceof Error ? error.message : "An error occurred while deleting the user.",
         });
     };
 
-    const confirmBan = () => {
+    const confirmBan = async () => {
         if (!selectedUser || !banActionType) return;
 
-        banUserMutation.mutate(
-            { userId: selectedUser._id.toString(), action: banActionType },
-            {
-                onSuccess: () => {
-                    toast.success(
-                        banActionType === 'ban' ? "User Banned Successfully!" : "User Unbanned Successfully!",
-                        {
-                            description: `User "${selectedUser.name}" has been ${banActionType === 'ban' ? 'banned' : 'unbanned'}.`,
-                            duration: 5000,
-                        }
-                    );
-                    setBanDialogOpen(false);
-                    setSelectedUser(null);
-                    setBanActionType(null);
-                },
-                onError: (error) => {
-                    toast.error(`Failed to ${banActionType === 'ban' ? 'Ban' : 'Unban'} User`, {
-                        description: error.message || `An error occurred while ${banActionType === 'ban' ? 'banning' : 'unbanning'} the user.`,
-                        duration: 5000,
-                    });
-                },
-            }
-        );
+        const banPromise = banUserMutation.mutateAsync({
+            userId: selectedUser._id.toString(),
+            action: banActionType,
+        }).then(() => {
+            setBanDialogOpen(false);
+            setSelectedUser(null);
+            setBanActionType(null);
+        });
+
+        toast.promise(banPromise, {
+            loading: `${banActionType === 'ban' ? 'Banning' : 'Unbanning'} user...`,
+            success: `User "${selectedUser.name}" has been ${banActionType === 'ban' ? 'banned' : 'unbanned'}.`,
+            error: (error) => error instanceof Error ? error.message : `An error occurred while ${banActionType === 'ban' ? 'banning' : 'unbanning'} the user.`,
+        });
     };
 
     const isCurrentUser = (userId: string) => {
