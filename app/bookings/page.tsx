@@ -276,11 +276,14 @@ const BookingsPage = () => {
                                     selectedDateBookings.length > 0 ? (
                                         <div className="space-y-4">
                                             {selectedDateBookings.map(booking => (
-                                                <Link
+                                                <div
                                                     key={booking.id}
-                                                    href={`/events/${booking.event.slug}`}
                                                     className="block p-4 rounded-lg bg-dark-100/50 border border-blue/10 hover:border-blue/30 hover:bg-dark-100/70 transition-all duration-200 group"
                                                 >
+                                                    <Link
+                                                        href={`/events/${booking.event.slug}`}
+                                                        className="block"
+                                                    >
                                                     <div className="relative w-full h-32 mb-3 rounded-lg overflow-hidden">
                                                         <Image
                                                             src={booking.event.image}
@@ -341,11 +344,11 @@ const BookingsPage = () => {
                         <h2 className="text-2xl font-semibold text-foreground mb-6">All Bookings</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {bookings.map(booking => (
-                                <Link
+                                <div
                                     key={booking.id}
-                                    href={`/events/${booking.event.slug}`}
                                     className="group bg-dark-200/50 backdrop-blur-xl rounded-xl border border-blue/20 overflow-hidden hover:border-blue/30 hover:shadow-[0_0_25px_rgba(148,234,255,0.15)] transition-all duration-300"
                                 >
+                                    <Link href={`/events/${booking.event.slug}`}>
                                     <div className="relative w-full h-48">
                                         <Image
                                             src={booking.event.image}
@@ -373,7 +376,16 @@ const BookingsPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </Link>
+                                    </Link>
+                                    <div className="p-5 pt-0">
+                                        <Link
+                                            href={`/bookings/${booking.id}/ticket`}
+                                            className="text-sm text-blue hover:underline"
+                                        >
+                                            View Ticket →
+                                        </Link>
+                                    </div>
+                                </div>
                             ))}
                         </div>
                     </div>
