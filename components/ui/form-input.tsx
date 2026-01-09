@@ -8,9 +8,11 @@ export interface FormInputProps extends React.ComponentProps<"input"> {
     helperText?: string;
     required?: boolean;
     containerClassName?: string;
+    multiline?: boolean;
+    rows?: number;
 }
 
-const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
+const FormInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, FormInputProps>(
     (
         {
             label,
@@ -20,6 +22,8 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
             containerClassName,
             className,
             id,
+            multiline,
+            rows = 4,
             ...props
         },
         ref
@@ -35,15 +39,29 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
                     {label}
                     {required && <span className="text-destructive ml-1">*</span>}
                 </label>
-                <Input
-                    ref={ref}
-                    id={inputId}
-                    className={cn(
-                        error && "border-destructive focus-visible:ring-destructive",
-                        className
-                    )}
-                    {...props}
-                />
+                {multiline ? (
+                    <textarea
+                        ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
+                        id={inputId}
+                        rows={rows}
+                        className={cn(
+                            "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                            error && "border-destructive focus-visible:ring-destructive",
+                            className
+                        )}
+                        {...(props as any)}
+                    />
+                ) : (
+                    <Input
+                        ref={ref as React.ForwardedRef<HTMLInputElement>}
+                        id={inputId}
+                        className={cn(
+                            error && "border-destructive focus-visible:ring-destructive",
+                            className
+                        )}
+                        {...props}
+                    />
+                )}
                 {error && (
                     <p className="text-xs text-destructive mt-1.5">{error}</p>
                 )}

@@ -7,6 +7,7 @@ import { Menu, X, User, ChevronDown, Calendar, LogOut, LayoutDashboardIcon } fro
 import { usePathname } from "next/navigation"
 import { useAuth } from "@/lib/hooks/use-auth"
 import ThemeToggle from "./ThemeToggle"
+import NotificationCenter from "./NotificationCenter"
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -57,10 +58,9 @@ const Navbar = () => {
     const navLinks = [
         { href: "/", label: "Home" },
         { href: "/events", label: "All Events" },
+        { href: "/pricing", label: "Pricing" },
         { href: "/about-us", label: "About Us" },
         { href: "/contact", label: "Contact" },
-        { href: "/help-center", label: "Help Center" },
-        { href: "/privacy-policy", label: "Privacy Policy" },
     ]
 
     const isActive = (href: string) => {
@@ -122,18 +122,20 @@ const Navbar = () => {
                         </div>
 
                         {isAuthenticated ? (
-                            <div className="relative ml-2" ref={dropdownRef}>
-                                <button
-                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className={`
-                                        flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-300
-                                        ${isDropdownOpen
-                                            ? "bg-dark-200/80 border border-blue/30 shadow-[0_0_20px_rgba(148,234,255,0.15)]"
-                                            : "bg-dark-200/40 border border-blue/10 hover:bg-dark-200/60 hover:border-blue/20"
-                                        }
-                                    `}
-                                    aria-label="User menu"
-                                >
+                            <div className="flex items-center gap-2">
+                                <NotificationCenter />
+                                <div className="relative ml-2" ref={dropdownRef}>
+                                    <button
+                                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                        className={`
+                                            flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-300
+                                            ${isDropdownOpen
+                                                ? "bg-dark-200/80 border border-blue/30 shadow-[0_0_20px_rgba(148,234,255,0.15)]"
+                                                : "bg-dark-200/40 border border-blue/10 hover:bg-dark-200/60 hover:border-blue/20"
+                                            }
+                                        `}
+                                        aria-label="User menu"
+                                    >
                                     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/30 via-primary/20 to-blue/30 border-2 border-blue/40 flex items-center justify-center text-xs font-bold text-foreground shadow-[0_0_15px_rgba(148,234,255,0.2)]">
                                         {getUserInitials(user?.name) || <User className="w-4 h-4" />}
                                     </div>
@@ -165,6 +167,25 @@ const Navbar = () => {
                                                     <LayoutDashboardIcon className="w-4 h-4" />
                                                     Admin Dashboard
                                                 </Link>
+                                            ) : role === 'organizer' ? (
+                                                <>
+                                                    <Link
+                                                        href="/organizer-dashboard"
+                                                        onClick={() => setIsDropdownOpen(false)}
+                                                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                                    >
+                                                        <LayoutDashboardIcon className="w-4 h-4" />
+                                                        Organizer Dashboard
+                                                    </Link>
+                                                    <Link
+                                                        href="/bookings"
+                                                        onClick={() => setIsDropdownOpen(false)}
+                                                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                                    >
+                                                        <Calendar className="w-4 h-4" />
+                                                        My Bookings
+                                                    </Link>
+                                                </>
                                             ) : (
                                                 <Link
                                                     href="/bookings"
@@ -186,6 +207,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                 )}
+                                </div>
                             </div>
                         ) : (
                             <div className="flex items-center gap-2">
@@ -274,17 +296,36 @@ const Navbar = () => {
                                             onClick={() => setIsMenuOpen(false)}
                                             className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
                                         >
-                                            <Calendar className="w-4 h-4" />
-                                            My Bookings
+                                            <LayoutDashboardIcon className="w-4 h-4" />
+                                            Admin Dashboard
                                         </Link>
+                                    ) : role === 'organizer' ? (
+                                        <>
+                                            <Link
+                                                href="/organizer-dashboard"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <LayoutDashboardIcon className="w-4 h-4" />
+                                                Organizer Dashboard
+                                            </Link>
+                                            <Link
+                                                href="/bookings"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <Calendar className="w-4 h-4" />
+                                                My Bookings
+                                            </Link>
+                                        </>
                                     ) : (
                                         <Link
-                                            href="/admin-dashboard"
+                                            href="/bookings"
                                             onClick={() => setIsMenuOpen(false)}
                                             className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
                                         >
-                                            <LayoutDashboardIcon className="w-4 h-4" />
-                                            Admin Dashboard
+                                            <Calendar className="w-4 h-4" />
+                                            My Bookings
                                         </Link>
                                     )}
                                     <div className="border-t border-blue/10 my-1" />

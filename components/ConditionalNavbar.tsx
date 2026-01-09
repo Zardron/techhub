@@ -5,7 +5,10 @@ import Navbar from "./Navbar";
 
 export default function ConditionalNavbar() {
     const pathname = usePathname();
-    const hideNavbar = pathname.startsWith("/admin-dashboard") || pathname === "/appeal-ban";
+    const hideNavbar = 
+        pathname.startsWith("/admin-dashboard") || 
+        pathname.startsWith("/organizer-dashboard") ||
+        pathname === "/appeal-ban";
 
     if (hideNavbar) {
         return null;
