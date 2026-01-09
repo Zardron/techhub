@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useDashboardStatistics } from "@/lib/hooks/api/admin.queries";
-import { Users, Calendar, Ticket, Building2, TrendingUp, TrendingDown } from "lucide-react";
+import { Users, Calendar, Ticket, Building2, TrendingUp, TrendingDown, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { useAuthStore } from "@/lib/store/auth.store";
+import toast from "react-hot-toast";
 import {
     LineChart,
     Line,
@@ -79,6 +83,32 @@ type TimeRange = "1month" | "3months" | "6months" | "all";
 
 export default function AdminDashboardPage() {
     const [timeRange, setTimeRange] = useState<TimeRange>("6months");
+    const { token } = useAuthStore();
+
+    // Seed plans mutation
+    const seedPlansMutation = useMutation({
+        mutationFn: async () => {
+            if (!token) throw new Error("Not authenticated");
+            const response = await fetch("/api/admin/seed-plans", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || "Failed to seed plans");
+            }
+            return response.json();
+        },
+        onSuccess: (data) => {
+            toast.success(data.message || "Plans seeded successfully!");
+        },
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to seed plans");
+        },
+    });
     const { data: statisticsData, isLoading, error } = useDashboardStatistics(timeRange);
     const [growthChartType, setGrowthChartType] = useState<ChartType>("area");
     const [eventsChartType, setEventsChartType] = useState<ChartType>("bar");
@@ -284,7 +314,17 @@ export default function AdminDashboardPage() {
                         Welcome to the admin dashboard. Manage your platform from here.
                     </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
+                    <Button
+                        onClick={() => seedPlansMutation.mutate()}
+                        disabled={seedPlansMutation.isPending}
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                    >
+                        <Sparkles className="h-4 w-4" />
+                        {seedPlansMutation.isPending ? "Seeding..." : "Seed Plans"}
+                    </Button>
                     <label htmlFor="timeRange" className="text-xs sm:text-sm font-medium text-muted-foreground whitespace-nowrap">
                         Time Range:
                     </label>
