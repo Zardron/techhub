@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect, useRef } from "react"
-import { Menu, X, User, ChevronDown, Calendar, LogOut, LayoutDashboardIcon } from "lucide-react"
+import { Menu, X, User, ChevronDown, Calendar, LogOut, LayoutDashboardIcon, CreditCard, Heart, Bell } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { useAuth } from "@/lib/hooks/use-auth"
 import ThemeToggle from "./ThemeToggle"
@@ -59,6 +59,7 @@ const Navbar = () => {
         { href: "/", label: "Home" },
         { href: "/events", label: "All Events" },
         { href: "/pricing", label: "Pricing" },
+        { href: "/become-organizer", label: "Become Organizer" },
         { href: "/about-us", label: "About Us" },
         { href: "/contact", label: "Contact" },
     ]
@@ -187,14 +188,48 @@ const Navbar = () => {
                                                     </Link>
                                                 </>
                                             ) : (
-                                                <Link
-                                                    href="/bookings"
-                                                    onClick={() => setIsDropdownOpen(false)}
-                                                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
-                                                >
-                                                    <Calendar className="w-4 h-4" />
-                                                    My Bookings
-                                                </Link>
+                                                <>
+                                            <Link
+                                                href="/bookings"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <Calendar className="w-4 h-4" />
+                                                My Bookings
+                                            </Link>
+                                            <Link
+                                                href="/payments"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <CreditCard className="w-4 h-4" />
+                                                Payment History
+                                            </Link>
+                                            <Link
+                                                href="/profile"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <User className="w-4 h-4" />
+                                                My Profile
+                                            </Link>
+                                            <Link
+                                                href="/favorites"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <Heart className="w-4 h-4" />
+                                                My Favorites
+                                            </Link>
+                                            <Link
+                                                href="/notifications"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <Bell className="w-4 h-4" />
+                                                Notifications
+                                            </Link>
+                                                </>
                                             )}
                                             <div className="border-t border-blue/10 my-1" />
                                             <button
@@ -319,14 +354,32 @@ const Navbar = () => {
                                             </Link>
                                         </>
                                     ) : (
-                                        <Link
-                                            href="/bookings"
-                                            onClick={() => setIsMenuOpen(false)}
-                                            className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
-                                        >
-                                            <Calendar className="w-4 h-4" />
-                                            My Bookings
-                                        </Link>
+                                        <>
+                                            <Link
+                                                href="/bookings"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <Calendar className="w-4 h-4" />
+                                                My Bookings
+                                            </Link>
+                                            <Link
+                                                href="/payments"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <CreditCard className="w-4 h-4" />
+                                                Payment History
+                                            </Link>
+                                            <Link
+                                                href="/profile"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-3 text-sm text-foreground/90 hover:bg-blue/10 hover:text-blue transition-colors duration-200"
+                                            >
+                                                <User className="w-4 h-4" />
+                                                My Profile
+                                            </Link>
+                                        </>
                                     )}
                                     <div className="border-t border-blue/10 my-1" />
                                     <button

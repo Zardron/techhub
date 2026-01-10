@@ -10,7 +10,13 @@ import {
     Settings, 
     CreditCard,
     Plus,
-    FileText
+    FileText,
+    Tag,
+    RefreshCw,
+    DollarSign,
+    Clock,
+    CheckCircle,
+    Mail
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +42,11 @@ const menuItems = [
         icon: Users,
     },
     {
+        href: "/organizer-dashboard/team",
+        label: "Team",
+        icon: Users,
+    },
+    {
         href: "/organizer-dashboard/analytics",
         label: "Analytics",
         icon: BarChart3,
@@ -44,6 +55,36 @@ const menuItems = [
         href: "/organizer-dashboard/billing",
         label: "Billing",
         icon: CreditCard,
+    },
+    {
+        href: "/organizer-dashboard/promo-codes",
+        label: "Promo Codes",
+        icon: Tag,
+    },
+    {
+        href: "/organizer-dashboard/refunds",
+        label: "Refunds",
+        icon: RefreshCw,
+    },
+    {
+        href: "/organizer-dashboard/payouts",
+        label: "Payouts",
+        icon: DollarSign,
+    },
+    {
+        href: "/organizer-dashboard/waitlist",
+        label: "Waitlist",
+        icon: Clock,
+    },
+    {
+        href: "/organizer-dashboard/check-in-history",
+        label: "Check-In History",
+        icon: CheckCircle,
+    },
+    {
+        href: "/organizer-dashboard/attendees/communicate",
+        label: "Communicate",
+        icon: Mail,
     },
     {
         href: "/organizer-dashboard/settings",

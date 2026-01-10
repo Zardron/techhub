@@ -87,8 +87,10 @@ export default function AdminDashboardLayout({
                 ${sideBarCollapsed || isMobile ? "ml-0" : "ml-0 md:ml-64"}
             `}>
                 <div className={`
-                    fixed top-0 right-0 z-30 transition-all duration-300 w-full
-                    ${sideBarCollapsed || isMobile ? "left-0" : "left-0 md:left-64"}
+                    fixed top-0 z-50 transition-all duration-300
+                    ${sideBarCollapsed || isMobile 
+                        ? "left-0 right-0 w-full" 
+                        : "left-64 right-0 md:w-[calc(100%-16rem)]"}
                 `}>
                     <Navbar
                         sideBarCollapsed={sideBarCollapsed}

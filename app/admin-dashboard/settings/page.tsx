@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuthStore } from "@/lib/store/auth.store";
 import { FormInput } from "@/components/ui/form-input";
 import { FormSelect } from "@/components/ui/form-select";
 import { Button } from "@/components/ui/button";
@@ -12,16 +14,23 @@ import {
     Bell, 
     Server,
     Save,
-    RefreshCw
+    RefreshCw,
+    DollarSign
 } from "lucide-react";
 
 export default function SettingsPage() {
+    const { token } = useAuthStore();
+    const queryClient = useQueryClient();
     const [formData, setFormData] = useState({
         // General Settings
         platformName: "TechEventX",
         platformDescription: "Your premier destination for tech events and networking",
         contactEmail: "contact@techeventx.com",
         supportEmail: "support@techeventx.com",
+        // Financial Settings
+        platformFeePercentage: "5",
+        minimumPayoutAmount: "10.00",
+        currency: "php",
         
         // Security Settings
         minPasswordLength: "8",
@@ -53,7 +62,66 @@ export default function SettingsPage() {
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isSaving, setIsSaving] = useState(false);
-    const [activeTab, setActiveTab] = useState<"general" | "security" | "email" | "notifications" | "system">("general");
+    const [activeTab, setActiveTab] = useState<"general" | "security" | "email" | "notifications" | "system" | "financial">("general");
+
+    // Fetch platform settings
+    const { data: settingsData, isLoading: isLoadingSettings } = useQuery({
+        queryKey: ["admin", "platform-settings"],
+        queryFn: async () => {
+            if (!token) throw new Error("Not authenticated");
+            const response = await fetch("/api/admin/platform-settings", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!response.ok) throw new Error("Failed to fetch settings");
+            return response.json();
+        },
+        enabled: !!token,
+    });
+
+    // Update settings mutation
+    const updateSettingsMutation = useMutation({
+        mutationFn: async (settings: any) => {
+            if (!token) throw new Error("Not authenticated");
+            const response = await fetch("/api/admin/platform-settings", {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(settings),
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || "Failed to update settings");
+            }
+            return response.json();
+        },
+        onSuccess: () => {
+            toast.success("Platform settings updated successfully");
+            queryClient.invalidateQueries({ queryKey: ["admin", "platform-settings"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to update settings");
+        },
+    });
+
+    // Load settings into form
+    useEffect(() => {
+        if (settingsData?.data?.settings) {
+            const settings = settingsData.data.settings;
+            setFormData(prev => ({
+                ...prev,
+                platformName: settings.platformName || prev.platformName,
+                platformDescription: settings.platformDescription || prev.platformDescription,
+                contactEmail: settings.contactEmail || prev.contactEmail,
+                supportEmail: settings.supportEmail || prev.supportEmail,
+                platformFeePercentage: settings.platformFeePercentage?.toString() || prev.platformFeePercentage,
+                minimumPayoutAmount: settings.minimumPayoutAmount ? (settings.minimumPayoutAmount / 100).toFixed(2) : prev.minimumPayoutAmount,
+                currency: settings.currency || prev.currency,
+                maintenanceMode: settings.maintenanceMode?.toString() || prev.maintenanceMode,
+            }));
+        }
+    }, [settingsData]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -134,13 +202,24 @@ export default function SettingsPage() {
 
         setIsSaving(true);
 
-        // Simulate API call
-        setTimeout(() => {
+        try {
+            const settingsToUpdate: any = {
+                platformName: formData.platformName,
+                platformDescription: formData.platformDescription,
+                contactEmail: formData.contactEmail,
+                supportEmail: formData.supportEmail,
+                platformFeePercentage: parseFloat(formData.platformFeePercentage),
+                minimumPayoutAmount: Math.round(parseFloat(formData.minimumPayoutAmount) * 100),
+                currency: formData.currency,
+                maintenanceMode: formData.maintenanceMode === "true",
+            };
+
+            await updateSettingsMutation.mutateAsync(settingsToUpdate);
+        } catch (error) {
+            // Error handled by mutation
+        } finally {
             setIsSaving(false);
-            toast.success("Your platform settings have been updated.", {
-                duration: 5000,
-            });
-        }, 1500);
+        }
     };
 
     const handleReset = () => {
@@ -178,6 +257,7 @@ export default function SettingsPage() {
 
     const tabs = [
         { id: "general" as const, label: "General", icon: SettingsIcon },
+        { id: "financial" as const, label: "Financial", icon: DollarSign },
         { id: "security" as const, label: "Security", icon: Shield },
         { id: "email" as const, label: "Email", icon: Mail },
         { id: "notifications" as const, label: "Notifications", icon: Bell },
@@ -278,6 +358,61 @@ export default function SettingsPage() {
                                                 onChange={handleChange}
                                                 error={errors.supportEmail}
                                                 required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Financial Settings Tab */}
+                            {activeTab === "financial" && (
+                                <div className="space-y-6">
+                                    <div>
+                                        <h3 className="text-lg font-semibold mb-4">Financial Settings</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <FormInput
+                                                id="platformFeePercentage"
+                                                name="platformFeePercentage"
+                                                type="number"
+                                                step="0.1"
+                                                label="Platform Fee Percentage"
+                                                placeholder="5"
+                                                value={formData.platformFeePercentage}
+                                                onChange={handleChange}
+                                                error={errors.platformFeePercentage}
+                                                required
+                                                min="0"
+                                                max="100"
+                                                helperText="Percentage of each transaction taken as platform fee (0-100)"
+                                            />
+
+                                            <FormInput
+                                                id="minimumPayoutAmount"
+                                                name="minimumPayoutAmount"
+                                                type="number"
+                                                step="0.01"
+                                                label="Minimum Payout Amount"
+                                                placeholder="10.00"
+                                                value={formData.minimumPayoutAmount}
+                                                onChange={handleChange}
+                                                error={errors.minimumPayoutAmount}
+                                                required
+                                                min="0"
+                                                helperText="Minimum amount organizers can request for payout"
+                                            />
+
+                                            <FormSelect
+                                                id="currency"
+                                                name="currency"
+                                                label="Default Currency"
+                                                value={formData.currency}
+                                                onChange={handleChange}
+                                                options={[
+                                                    { value: "php", label: "PHP (₱)" },
+                                                    { value: "usd", label: "USD ($)" },
+                                                ]}
+                                                required
+                                                containerClassName="md:col-span-2"
                                             />
                                         </div>
                                     </div>
@@ -628,6 +763,23 @@ export default function SettingsPage() {
                                         <h3 className="font-semibold text-sm">Contact Emails</h3>
                                         <p className="text-sm text-muted-foreground">
                                             Configure email addresses for general contact and support inquiries.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab === "financial" && (
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <h3 className="font-semibold text-sm">Platform Fees</h3>
+                                        <p className="text-sm text-muted-foreground">
+                                            Set the commission percentage charged on each transaction. This is how the platform generates revenue.
+                                        </p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="font-semibold text-sm">Payout Settings</h3>
+                                        <p className="text-sm text-muted-foreground">
+                                            Configure the minimum amount organizers must accumulate before requesting a payout.
                                         </p>
                                     </div>
                                 </div>

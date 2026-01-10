@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Users, Plus, ChevronDown, Calendar, FolderKanbanIcon, Settings, Globe, Ban } from "lucide-react"
+import { Home, Users, Plus, ChevronDown, Calendar, FolderKanbanIcon, Settings, Globe, Ban, CreditCard, AlertCircle, DollarSign, RefreshCw, FileText } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
@@ -44,6 +44,11 @@ const sideBarItems = [
                 href: "/admin-dashboard/add-organizers",
                 label: "Add Organizers",
                 icon: Plus
+            },
+            {
+                href: "/admin-dashboard/organizer-applications",
+                label: "Applications",
+                icon: FileText
             }
         ]
     },
@@ -58,6 +63,11 @@ const sideBarItems = [
                 icon: Calendar
             },
             {
+                href: "/admin-dashboard/pending-events",
+                label: "Pending Approval",
+                icon: AlertCircle
+            },
+            {
                 href: "/admin-dashboard/add-events",
                 label: "Add Events",
                 icon: Plus
@@ -68,6 +78,26 @@ const sideBarItems = [
         href: "/admin-dashboard/appeals",
         label: "Ban Appeals",
         icon: Ban,
+    },
+    {
+        href: "/admin-dashboard/subscriptions",
+        label: "Subscriptions",
+        icon: CreditCard,
+    },
+    {
+        href: "/admin-dashboard/financials",
+        label: "Financials",
+        icon: DollarSign,
+    },
+    {
+        href: "/admin-dashboard/payouts",
+        label: "Payouts",
+        icon: RefreshCw,
+    },
+    {
+        href: "/admin-dashboard/plans",
+        label: "Plans",
+        icon: CreditCard,
     },
     {
         href: "/",
