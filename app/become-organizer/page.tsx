@@ -65,7 +65,7 @@ export default function BecomeOrganizerPage() {
         },
         onSuccess: () => {
             toast.success("Application submitted successfully! We'll review it soon.");
-            router.push("/profile");
+            router.push("/my-applications");
         },
         onError: (error: any) => {
             toast.error(error.message || "Failed to submit application");
@@ -181,11 +181,26 @@ export default function BecomeOrganizerPage() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
-            // Remove planId if it's empty string
-            const submitData = {
-                ...formData,
-                planId: formData.planId || undefined,
+            // Only include planId if it's provided and not empty
+            const submitData: any = {
+                organizerName: formData.organizerName,
+                companyName: formData.companyName,
+                description: formData.description,
+                website: formData.website,
+                phone: formData.phone,
+                address: formData.address,
             };
+            
+            // Only include planId if it's a valid non-empty string
+            console.log('Form submission - planId value:', formData.planId, 'type:', typeof formData.planId);
+            if (formData.planId && formData.planId.trim() !== '') {
+                submitData.planId = formData.planId.trim();
+                console.log('Including planId in submitData:', submitData.planId);
+            } else {
+                console.log('planId is empty or not provided, not including in submitData');
+            }
+            
+            console.log('Submitting data:', submitData);
             submitApplicationMutation.mutate(submitData);
         }
     };
