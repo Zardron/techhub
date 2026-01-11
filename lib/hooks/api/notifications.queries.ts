@@ -13,9 +13,11 @@ export interface Notification {
 }
 
 export interface NotificationsResponse {
-    success: boolean;
     message: string;
-    data: {
+    notifications: Notification[];
+    unreadCount: number;
+    // Legacy support for data wrapper (if API changes)
+    data?: {
         notifications: Notification[];
         unreadCount: number;
     };
@@ -32,8 +34,8 @@ export const useNotifications = (unreadOnly: boolean = false) => {
             }
 
             const url = unreadOnly
-                ? "/api/notifications?unreadOnly=true"
-                : "/api/notifications";
+                ? "/api/users/notifications?unreadOnly=true"
+                : "/api/users/notifications";
 
             const response = await fetch(url, {
                 headers: {
@@ -62,13 +64,13 @@ export const useMarkNotificationAsRead = () => {
                 throw new Error("Not authenticated");
             }
 
-            const response = await fetch("/api/notifications", {
+            const response = await fetch("/api/users/notifications", {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ notificationId }),
+                body: JSON.stringify({ notificationIds: [notificationId] }),
             });
 
             if (!response.ok) {
@@ -79,6 +81,7 @@ export const useMarkNotificationAsRead = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["notifications"] });
+            queryClient.invalidateQueries({ queryKey: ["user", "notifications"] });
         },
     });
 };
@@ -93,7 +96,7 @@ export const useMarkAllNotificationsAsRead = () => {
                 throw new Error("Not authenticated");
             }
 
-            const response = await fetch("/api/notifications", {
+            const response = await fetch("/api/users/notifications", {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -110,6 +113,67 @@ export const useMarkAllNotificationsAsRead = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["notifications"] });
+            queryClient.invalidateQueries({ queryKey: ["user", "notifications"] });
+        },
+    });
+};
+
+export const useDeleteNotification = () => {
+    const { token } = useAuthStore();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (notificationId: string) => {
+            if (!token) {
+                throw new Error("Not authenticated");
+            }
+
+            const response = await fetch(`/api/users/notifications?notificationId=${notificationId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete notification");
+            }
+
+            return response.json();
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["notifications"] });
+            queryClient.invalidateQueries({ queryKey: ["user", "notifications"] });
+        },
+    });
+};
+
+export const useDeleteAllNotifications = () => {
+    const { token } = useAuthStore();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async () => {
+            if (!token) {
+                throw new Error("Not authenticated");
+            }
+
+            const response = await fetch("/api/users/notifications?deleteAll=true", {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete all notifications");
+            }
+
+            return response.json();
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["notifications"] });
+            queryClient.invalidateQueries({ queryKey: ["user", "notifications"] });
         },
     });
 };

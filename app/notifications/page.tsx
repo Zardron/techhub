@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/lib/store/auth.store";
 import { Button } from "@/components/ui/button";
-import { Bell, Check, CheckCheck, Trash2, ExternalLink } from "lucide-react";
+import { Bell, Check, CheckCheck, Trash2, ExternalLink, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { formatDateToReadable } from "@/lib/formatters";
 import Link from "next/link";
@@ -29,8 +29,10 @@ export default function NotificationsPage() {
         refetchInterval: 30000, // Refetch every 30 seconds
     });
 
-    const notifications = data?.data?.notifications || [];
-    const unreadCount = data?.data?.unreadCount || 0;
+    // API returns notifications and unreadCount at root level (not wrapped in data)
+    // Check both root level and data wrapper for compatibility
+    const notifications = data?.notifications || data?.data?.notifications || [];
+    const unreadCount = data?.unreadCount ?? data?.data?.unreadCount ?? 0;
 
     // Mark as read mutation
     const markAsReadMutation = useMutation({
@@ -62,12 +64,74 @@ export default function NotificationsPage() {
         },
     });
 
+    // Delete notification mutation
+    const deleteNotificationMutation = useMutation({
+        mutationFn: async (notificationId: string) => {
+            if (!token) throw new Error("Not authenticated");
+            const response = await fetch(`/api/users/notifications?notificationId=${notificationId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || "Failed to delete notification");
+            }
+            return response.json();
+        },
+        onSuccess: () => {
+            toast.success("Notification deleted");
+            queryClient.invalidateQueries({ queryKey: ["user", "notifications"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to delete notification");
+        },
+    });
+
+    // Delete all notifications mutation
+    const deleteAllNotificationsMutation = useMutation({
+        mutationFn: async () => {
+            if (!token) throw new Error("Not authenticated");
+            const response = await fetch("/api/users/notifications?deleteAll=true", {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || "Failed to delete all notifications");
+            }
+            return response.json();
+        },
+        onSuccess: () => {
+            toast.success("All notifications deleted");
+            queryClient.invalidateQueries({ queryKey: ["user", "notifications"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to delete all notifications");
+        },
+    });
+
     const handleMarkAsRead = (notificationId: string) => {
         markAsReadMutation.mutate([notificationId]);
     };
 
     const handleMarkAllAsRead = () => {
         markAsReadMutation.mutate();
+    };
+
+    const handleDeleteNotification = (notificationId: string) => {
+        if (confirm("Are you sure you want to delete this notification?")) {
+            deleteNotificationMutation.mutate(notificationId);
+        }
+    };
+
+    const handleDeleteAllNotifications = () => {
+        if (confirm("Are you sure you want to delete all notifications? This action cannot be undone.")) {
+            deleteAllNotificationsMutation.mutate();
+        }
     };
 
     if (isLoading) {
@@ -112,6 +176,17 @@ export default function NotificationsPage() {
                             Mark All Read
                         </Button>
                     )}
+                    {notifications.length > 0 && (
+                        <Button
+                            variant="outline"
+                            onClick={handleDeleteAllNotifications}
+                            disabled={deleteAllNotificationsMutation.isPending}
+                            className="text-destructive hover:text-destructive"
+                        >
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Delete All
+                        </Button>
+                    )}
                 </div>
             </div>
 
@@ -127,10 +202,21 @@ export default function NotificationsPage() {
                     {notifications.map((notification: any) => (
                         <div
                             key={notification.id}
-                            className={`p-4 border rounded-lg bg-card hover:bg-muted/50 transition-colors ${
+                            className={`group relative p-4 border rounded-lg bg-card hover:bg-muted/50 transition-colors ${
                                 !notification.read ? 'border-primary/20 bg-primary/5' : ''
                             }`}
                         >
+                            {/* Delete button - upper right corner */}
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteNotification(notification.id)}
+                                title="Delete"
+                                disabled={deleteNotificationMutation.isPending}
+                                className="absolute top-2 right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/10 text-muted-foreground hover:text-destructive rounded-full"
+                            >
+                                <X className="w-4 h-4" />
+                            </Button>
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
