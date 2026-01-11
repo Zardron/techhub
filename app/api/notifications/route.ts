@@ -4,6 +4,7 @@ import { verifyToken } from "@/lib/auth";
 import User from "@/database/user.model";
 import Notification from "@/database/notification.model";
 import { handleApiError, handleSuccessResponse } from "@/lib/utils";
+import mongoose from "mongoose";
 
 // GET - Get user's notifications
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -34,19 +35,35 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         const unreadOnly = searchParams.get('unreadOnly') === 'true';
         const limit = parseInt(searchParams.get('limit') || '50');
 
-        const query: any = { userId: user._id };
+        // Ensure userId is properly converted to ObjectId for query
+        const userId = typeof user._id === 'string' 
+            ? new mongoose.Types.ObjectId(user._id) 
+            : user._id;
+
+        const query: any = { userId };
         if (unreadOnly) {
             query.read = false;
         }
+
+        console.log('🔔 Fetching notifications for user:', {
+            userId: userId.toString(),
+            userIdType: typeof userId,
+            unreadOnly,
+            query
+        });
 
         const notifications = await Notification.find(query)
             .sort({ createdAt: -1 })
             .limit(limit);
 
+        console.log(`🔔 Found ${notifications.length} notifications`);
+
         const unreadCount = await Notification.countDocuments({
-            userId: user._id,
+            userId,
             read: false,
         });
+
+        console.log(`🔔 Unread count: ${unreadCount}`);
 
         const notificationsData = notifications.map(notif => ({
             id: notif._id.toString(),
