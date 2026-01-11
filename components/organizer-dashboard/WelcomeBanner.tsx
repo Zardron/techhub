@@ -77,7 +77,7 @@ export default function OrganizerWelcomeBanner() {
             title: "Track Your Analytics",
             description: "Monitor your event performance, revenue, and booking statistics to grow your events.",
             action: "View Analytics",
-            href: "/organizer-dashboard/analytics",
+            href: "/organizer-dashboard",
             completed: false,
         },
     ];

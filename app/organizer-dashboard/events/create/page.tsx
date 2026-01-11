@@ -2,16 +2,37 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { useCreateOrganizerEvent } from "@/lib/hooks/api/organizer.queries";
 import { FormInput } from "@/components/ui/form-input";
 import { FormSelect } from "@/components/ui/form-select";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuthStore } from "@/lib/store/auth.store";
 import toast from "react-hot-toast";
-import { X, Plus } from "lucide-react";
+import { X, Plus, Info, Check } from "lucide-react";
 
 export default function CreateEventPage() {
     const router = useRouter();
     const createEventMutation = useCreateOrganizerEvent();
+    const { token } = useAuthStore();
+    
+    // Fetch current subscription
+    const { data: subscriptionData } = useQuery({
+        queryKey: ["subscription"],
+        queryFn: async () => {
+            if (!token) throw new Error("Not authenticated");
+            const response = await fetch("/api/subscriptions", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!response.ok) throw new Error("Failed to fetch subscription");
+            return response.json();
+        },
+        enabled: !!token,
+    });
+
+    const subscription = subscriptionData?.subscription || subscriptionData?.data?.subscription;
+    const currentPlan = subscription?.plan;
     
     const [formData, setFormData] = useState({
         title: "",
@@ -147,14 +168,143 @@ export default function CreateEventPage() {
         });
     };
 
+    // Format plan features for display
+    const getPlanFeatures = () => {
+        if (!currentPlan) {
+            return {
+                name: "Free Plan",
+                features: [
+                    "Basic event creation",
+                    "Secure Payment Processing",
+                    "QR Code Tickets",
+                    "Email Notifications",
+                ],
+                limits: {
+                    maxEvents: "Limited events",
+                    maxBookings: "Limited bookings per event",
+                }
+            };
+        }
+
+        const features: string[] = [];
+        
+        // Core features (always available)
+        features.push("Secure Payment Processing");
+        features.push("QR Code Tickets");
+        features.push("Email Notifications");
+
+        // Plan-specific features
+        if (currentPlan.features?.analytics) features.push("Analytics & Insights");
+        if (currentPlan.features?.customBranding) features.push("Custom Branding");
+        if (currentPlan.features?.prioritySupport) features.push("Priority Support");
+        if (currentPlan.features?.apiAccess) features.push("API Access");
+        if (currentPlan.features?.whiteLabel) features.push("White Label Solution");
+        if (currentPlan.features?.teamManagement) features.push("Team Management");
+        if (currentPlan.features?.advancedReporting) features.push("Advanced Reporting");
+        if (currentPlan.features?.dedicatedAccountManager) features.push("Dedicated Account Manager");
+        if (currentPlan.features?.slaGuarantee) features.push("SLA Guarantee");
+        if (currentPlan.features?.customIntegrations) features.push("Custom Integrations");
+        if (currentPlan.features?.advancedSecurity) features.push("Advanced Security");
+
+        const limits = {
+            maxEvents: currentPlan.features?.maxEvents === null || currentPlan.features?.maxEvents === undefined
+                ? "Unlimited events"
+                : `${currentPlan.features.maxEvents} events`,
+            maxBookings: currentPlan.features?.maxBookingsPerEvent === null || currentPlan.features?.maxBookingsPerEvent === undefined
+                ? "Unlimited bookings per event"
+                : `Up to ${currentPlan.features.maxBookingsPerEvent} bookings/event`,
+        };
+
+        return {
+            name: currentPlan.name || "Current Plan",
+            features,
+            limits,
+        };
+    };
+
+    const planInfo = getPlanFeatures();
+
     return (
-        <div className="space-y-6">
-            <div>
-                <h1 className="text-3xl font-bold">Create New Event</h1>
-                <p className="text-muted-foreground mt-2">Fill in the details to create your event</p>
+        <div className="space-y-6 relative">
+            <div className="flex items-start justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold">Create New Event</h1>
+                    <p className="text-muted-foreground mt-2">Fill in the details to create your event</p>
+                </div>
+                
+                {/* Plan Features Tooltip */}
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="flex items-center gap-2"
+                            >
+                                <Info className="w-4 h-4" />
+                                Your Plan Features
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent 
+                            side="left" 
+                            className="w-80 p-0 bg-card border"
+                            sideOffset={10}
+                        >
+                            <div className="p-4 space-y-4">
+                                <div>
+                                    <h3 className="font-semibold text-lg mb-1">{planInfo.name}</h3>
+                                    <p className="text-sm text-muted-foreground">Current plan features</p>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <div>
+                                        <p className="text-xs font-medium text-muted-foreground mb-2">LIMITS</p>
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2 text-sm">
+                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <span>{planInfo.limits.maxEvents}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-sm">
+                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <span>{planInfo.limits.maxBookings}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="text-xs font-medium text-muted-foreground mb-2">FEATURES</p>
+                                        <div className="space-y-1">
+                                            {planInfo.features.map((feature, index) => (
+                                                <div key={index} className="flex items-center gap-2 text-sm">
+                                                    <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                    <span>{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="pt-2 border-t">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="w-full"
+                                        onClick={() => router.push("/organizer-dashboard/billing")}
+                                    >
+                                        View Plans & Upgrade
+                                    </Button>
+                                </div>
+                            </div>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Form Section */}
+                <div className="lg:col-span-2">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-6 md:grid-cols-2">
                     <FormInput
                         label="Event Title"
@@ -429,6 +579,169 @@ export default function CreateEventPage() {
                     </Button>
                 </div>
             </form>
+                </div>
+
+                {/* Guidelines Section */}
+                <div className="lg:col-span-1">
+                    <div className="border rounded-lg bg-card shadow-sm sticky top-4">
+                        <div className="p-6 border-b">
+                            <h2 className="text-lg font-semibold">Event Guidelines</h2>
+                            <p className="text-sm text-muted-foreground mt-1">
+                                Tips for creating great events
+                            </p>
+                        </div>
+
+                        <div className="p-6 space-y-6">
+                            {/* Your Plan Details */}
+                            <div className="space-y-3 pb-4 border-b">
+                                <div>
+                                    <h3 className="font-semibold text-sm mb-1">Your Plan Details</h3>
+                                    <p className="text-xs text-muted-foreground mb-3">
+                                        Current subscription plan features
+                                    </p>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <div className="p-3 bg-primary/5 rounded-md border border-primary/20">
+                                        <p className="font-medium text-sm mb-2">{planInfo.name}</p>
+                                        <div className="space-y-1.5 text-xs">
+                                            <div className="flex items-center gap-2">
+                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <span className="text-muted-foreground">{planInfo.limits.maxEvents}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <span className="text-muted-foreground">{planInfo.limits.maxBookings}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-1.5">
+                                        <p className="text-xs font-medium text-muted-foreground">Available Features:</p>
+                                        <div className="space-y-1">
+                                            {planInfo.features.slice(0, 5).map((feature, index) => (
+                                                <div key={index} className="flex items-center gap-2 text-xs">
+                                                    <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                    <span className="text-muted-foreground">{feature}</span>
+                                                </div>
+                                            ))}
+                                            {planInfo.features.length > 5 && (
+                                                <p className="text-xs text-muted-foreground pl-5">
+                                                    +{planInfo.features.length - 5} more features
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                    
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="w-full mt-3"
+                                        onClick={() => router.push("/organizer-dashboard/billing")}
+                                    >
+                                        View Full Plan & Upgrade
+                                    </Button>
+                                </div>
+                            </div>
+
+                            {/* Event Information */}
+                            <div className="space-y-2">
+                                <h3 className="font-semibold text-sm">Event Details</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Provide clear and detailed information about your event. Include all relevant details to help attendees understand what to expect.
+                                </p>
+                            </div>
+
+                            {/* Image Guidelines */}
+                            <div className="space-y-2">
+                                <h3 className="font-semibold text-sm">Image Requirements</h3>
+                                <ul className="space-y-1.5 text-xs text-muted-foreground">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Use high-quality images (recommended: 1200x630px)</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Supported formats: JPG, PNG, WebP</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Keep file size under 5MB for faster uploads</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* Tags & Agenda */}
+                            <div className="space-y-2">
+                                <h3 className="font-semibold text-sm">Tags & Agenda</h3>
+                                <ul className="space-y-1.5 text-xs text-muted-foreground">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Add relevant tags to help users discover your event</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Include a detailed agenda with time slots</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Use clear, descriptive agenda items</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* Event Modes */}
+                            <div className="pt-4 border-t space-y-3">
+                                <h3 className="font-semibold text-sm">Event Modes</h3>
+                                <div className="space-y-2 text-xs text-muted-foreground">
+                                    <div className="flex items-start gap-2">
+                                        <span className="text-green-500 mt-0.5">•</span>
+                                        <div>
+                                            <span className="font-medium">Virtual:</span> Virtual events accessible from anywhere
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                        <span className="text-blue-500 mt-0.5">•</span>
+                                        <div>
+                                            <span className="font-medium">Onsite:</span> In-person events at a physical location
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                        <span className="text-purple-500 mt-0.5">•</span>
+                                        <div>
+                                            <span className="font-medium">Hybrid:</span> Combination of virtual and onsite attendance
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Quick Tips */}
+                            <div className="pt-4 border-t space-y-3">
+                                <h3 className="font-semibold text-sm">Quick Tips</h3>
+                                <ul className="space-y-2 text-sm text-muted-foreground">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Double-check all dates and times before submitting</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Add at least 3-5 relevant tags for better discoverability</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Include detailed agenda items with time information</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span>Set appropriate capacity limits to manage attendance</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
