@@ -88,8 +88,54 @@ export default function OrganizerApplicationsPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-foreground/60">Loading applications...</div>
+            <div className="space-y-6">
+                <div>
+                    <div className="h-8 bg-muted rounded w-64 mb-2 animate-pulse"></div>
+                    <div className="h-4 bg-muted rounded w-96 animate-pulse"></div>
+                </div>
+
+                {/* Statistics Skeleton */}
+                <div className="grid gap-4 md:grid-cols-3">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="h-4 bg-muted rounded w-24"></div>
+                                <div className="w-5 h-5 bg-muted rounded"></div>
+                            </div>
+                            <div className="h-8 bg-muted rounded w-16"></div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Application Cards Skeleton */}
+                <div className="space-y-4">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="flex-1 space-y-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-6 bg-muted rounded w-48"></div>
+                                        <div className="h-6 bg-muted rounded w-20"></div>
+                                    </div>
+                                    <div className="h-4 bg-muted rounded w-64"></div>
+                                    <div className="h-4 bg-muted rounded w-56"></div>
+                                    <div className="h-4 bg-muted rounded w-40"></div>
+                                </div>
+                                <div className="flex gap-2">
+                                    <div className="h-9 bg-muted rounded w-24"></div>
+                                    <div className="h-9 bg-muted rounded w-20"></div>
+                                </div>
+                            </div>
+                            <div className="h-4 bg-muted rounded w-full mb-2"></div>
+                            <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
+                            <div className="flex flex-wrap gap-4">
+                                <div className="h-4 bg-muted rounded w-32"></div>
+                                <div className="h-4 bg-muted rounded w-40"></div>
+                                <div className="h-4 bg-muted rounded w-48"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }

@@ -94,8 +94,14 @@ export default function AttendeesPage() {
                     <p className="text-muted-foreground">Select an event to view attendees</p>
                 </div>
             ) : isLoading ? (
-                <div className="text-center py-12">
-                    <p className="text-muted-foreground">Loading attendees...</p>
+                <div className="space-y-4">
+                    <div className="h-10 bg-muted rounded w-full animate-pulse"></div>
+                    <div className="border rounded-lg overflow-hidden animate-pulse">
+                        <div className="h-12 bg-muted/50"></div>
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className="h-16 bg-muted/30 border-t"></div>
+                        ))}
+                    </div>
                 </div>
             ) : attendees.length === 0 ? (
                 <div className="text-center py-12 border rounded-lg">

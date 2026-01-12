@@ -85,8 +85,64 @@ export default function FinancialsPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-foreground/60">Loading financial data...</div>
+            <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <div className="h-8 bg-muted rounded w-64 mb-2 animate-pulse"></div>
+                        <div className="h-4 bg-muted rounded w-96 animate-pulse"></div>
+                    </div>
+                    <div className="flex gap-2">
+                        {[...Array(7)].map((_, i) => (
+                            <div key={i} className="h-9 bg-muted rounded w-20 animate-pulse"></div>
+                        ))}
+                        <div className="h-9 bg-muted rounded w-24 animate-pulse"></div>
+                    </div>
+                </div>
+
+                {/* Summary Cards Skeleton */}
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="h-4 bg-muted rounded w-32"></div>
+                                <div className="w-4 h-4 bg-muted rounded"></div>
+                            </div>
+                            <div className="h-8 bg-muted rounded w-24 mb-1"></div>
+                            <div className="h-3 bg-muted rounded w-40"></div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Additional Stats Skeleton */}
+                <div className="grid gap-4 md:grid-cols-3">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="h-4 bg-muted rounded w-32"></div>
+                                <div className="w-4 h-4 bg-muted rounded"></div>
+                            </div>
+                            <div className="h-8 bg-muted rounded w-24 mb-1"></div>
+                            <div className="h-3 bg-muted rounded w-40"></div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Chart Skeleton */}
+                <div className="p-6 border rounded-lg bg-card animate-pulse">
+                    <div className="h-6 bg-muted rounded w-56 mb-4"></div>
+                    <div className="h-[300px] bg-muted/10 rounded border border-muted/20"></div>
+                </div>
+
+                {/* Table Skeleton */}
+                <div className="p-6 border rounded-lg bg-card animate-pulse">
+                    <div className="h-6 bg-muted rounded w-48 mb-4"></div>
+                    <div className="space-y-3">
+                        <div className="h-12 bg-muted/50 rounded"></div>
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className="h-16 bg-muted/30 rounded"></div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }

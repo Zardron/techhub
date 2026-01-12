@@ -111,8 +111,38 @@ export default function TeamPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-foreground/60">Loading team members...</div>
+            <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <div className="h-8 bg-muted rounded w-64 mb-2 animate-pulse"></div>
+                        <div className="h-4 bg-muted rounded w-96 animate-pulse"></div>
+                    </div>
+                    <div className="h-10 bg-muted rounded w-40 animate-pulse"></div>
+                </div>
+
+                {/* Team Members List Skeleton */}
+                <div className="border rounded-lg bg-card overflow-hidden animate-pulse">
+                    <div className="p-6 border-b">
+                        <div className="h-6 bg-muted rounded w-48"></div>
+                    </div>
+                    <div className="divide-y">
+                        {[...Array(3)].map((_, i) => (
+                            <div key={i} className="p-6">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-muted rounded-full"></div>
+                                        <div className="space-y-2">
+                                            <div className="h-5 bg-muted rounded w-32"></div>
+                                            <div className="h-4 bg-muted rounded w-48"></div>
+                                            <div className="h-3 bg-muted rounded w-40"></div>
+                                        </div>
+                                    </div>
+                                    <div className="h-9 bg-muted rounded w-24"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }

@@ -186,7 +186,21 @@ export default function BillingPage() {
             <div>
                 <h2 className="text-2xl font-semibold mb-4">Available Plans</h2>
                 {plansLoading ? (
-                    <div className="text-center py-8 text-muted-foreground">Loading plans...</div>
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-stretch">
+                        {[...Array(4)].map((_, i) => (
+                            <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                                <div className="h-6 bg-muted rounded w-32 mb-2"></div>
+                                <div className="h-4 bg-muted rounded w-full mb-4"></div>
+                                <div className="h-8 bg-muted rounded w-40 mb-4"></div>
+                                <div className="space-y-2 mb-6">
+                                    {[...Array(6)].map((_, j) => (
+                                        <div key={j} className="h-4 bg-muted rounded w-full"></div>
+                                    ))}
+                                </div>
+                                <div className="h-10 bg-muted rounded w-full"></div>
+                            </div>
+                        ))}
+                    </div>
                 ) : plansError ? (
                     <div className="text-center py-8 text-destructive">Failed to load plans. Please try again.</div>
                 ) : plans.length === 0 ? (

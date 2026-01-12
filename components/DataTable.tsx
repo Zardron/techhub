@@ -256,14 +256,22 @@ export function DataTable<T extends Record<string, any>>({
                     </TableHeader>
                     <TableBody>
                         {loading ? (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={columns.length + (actions ? 1 : 0)}
-                                    className="text-center py-8 text-muted-foreground"
-                                >
-                                    Loading...
-                                </TableCell>
-                            </TableRow>
+                            <>
+                                {[...Array(5)].map((_, i) => (
+                                    <TableRow key={i}>
+                                        {columns.map((column) => (
+                                            <TableCell key={column.key as string}>
+                                                <div className="h-4 bg-muted rounded animate-pulse w-full"></div>
+                                            </TableCell>
+                                        ))}
+                                        {actions && (
+                                            <TableCell>
+                                                <div className="h-8 bg-muted rounded animate-pulse w-20"></div>
+                                            </TableCell>
+                                        )}
+                                    </TableRow>
+                                ))}
+                            </>
                         ) : filteredData.length === 0 ? (
                             <TableRow>
                                 <TableCell

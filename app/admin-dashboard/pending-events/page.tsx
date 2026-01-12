@@ -79,8 +79,45 @@ export default function PendingEventsPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-foreground/60">Loading pending events...</div>
+            <div className="space-y-6">
+                <div>
+                    <div className="h-8 bg-muted rounded w-64 mb-2 animate-pulse"></div>
+                    <div className="h-4 bg-muted rounded w-96 animate-pulse"></div>
+                </div>
+
+                {/* Event Cards Skeleton */}
+                <div className="space-y-4">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                            <div className="flex gap-6">
+                                <div className="relative w-48 h-32 rounded-lg bg-muted shrink-0"></div>
+                                <div className="flex-1 space-y-4">
+                                    <div className="flex items-start justify-between">
+                                        <div className="space-y-2">
+                                            <div className="h-6 bg-muted rounded w-64"></div>
+                                            <div className="h-4 bg-muted rounded w-full"></div>
+                                            <div className="h-4 bg-muted rounded w-3/4"></div>
+                                        </div>
+                                        <div className="h-6 bg-muted rounded w-32"></div>
+                                    </div>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        {[...Array(4)].map((_, j) => (
+                                            <div key={j} className="flex items-center gap-2">
+                                                <div className="w-4 h-4 bg-muted rounded"></div>
+                                                <div className="h-4 bg-muted rounded w-32"></div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <div className="h-10 bg-muted rounded w-24"></div>
+                                        <div className="h-10 bg-muted rounded w-20"></div>
+                                        <div className="h-10 bg-muted rounded w-28"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }

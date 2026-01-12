@@ -175,8 +175,48 @@ export default function PromoCodesPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-foreground/60">Loading promo codes...</div>
+            <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <div className="h-8 bg-muted rounded w-48 mb-2 animate-pulse"></div>
+                        <div className="h-4 bg-muted rounded w-96 animate-pulse"></div>
+                    </div>
+                    <div className="h-10 bg-muted rounded w-40 animate-pulse"></div>
+                </div>
+
+                {/* Promo Codes List Skeleton */}
+                <div className="border rounded-lg bg-card overflow-hidden animate-pulse">
+                    <div className="p-6 border-b">
+                        <div className="h-6 bg-muted rounded w-48"></div>
+                    </div>
+                    <div className="divide-y">
+                        {[...Array(3)].map((_, i) => (
+                            <div key={i} className="p-6">
+                                <div className="flex items-start justify-between">
+                                    <div className="flex-1 space-y-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-8 bg-muted rounded w-32"></div>
+                                            <div className="h-6 bg-muted rounded w-20"></div>
+                                        </div>
+                                        <div className="h-4 bg-muted rounded w-full"></div>
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                            {[...Array(5)].map((_, j) => (
+                                                <div key={j}>
+                                                    <div className="h-3 bg-muted rounded w-24 mb-2"></div>
+                                                    <div className="h-4 bg-muted rounded w-32"></div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="ml-4 flex gap-2">
+                                        <div className="h-9 bg-muted rounded w-28"></div>
+                                        <div className="h-9 bg-muted rounded w-9"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }

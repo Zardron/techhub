@@ -65,8 +65,41 @@ export default function SubscriptionsPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-foreground/60">Loading subscriptions...</div>
+            <div className="space-y-6">
+                <div>
+                    <div className="h-8 bg-muted rounded w-48 mb-2 animate-pulse"></div>
+                    <div className="h-4 bg-muted rounded w-96 animate-pulse"></div>
+                </div>
+
+                {/* Statistics Cards Skeleton */}
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+                    {[...Array(5)].map((_, i) => (
+                        <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="h-4 bg-muted rounded w-20"></div>
+                                <div className="w-4 h-4 bg-muted rounded"></div>
+                            </div>
+                            <div className="h-8 bg-muted rounded w-12"></div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Filters Skeleton */}
+                <div className="flex gap-2 flex-wrap">
+                    {[...Array(5)].map((_, i) => (
+                        <div key={i} className="h-9 bg-muted rounded w-20 animate-pulse"></div>
+                    ))}
+                </div>
+
+                {/* Table Skeleton */}
+                <div className="border rounded-lg bg-card overflow-hidden animate-pulse">
+                    <div className="overflow-x-auto">
+                        <div className="h-12 bg-muted/50"></div>
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className="h-16 bg-muted/30 border-t"></div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }

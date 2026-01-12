@@ -115,8 +115,57 @@ export default function PayoutsPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-foreground/60">Loading payout data...</div>
+            <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <div className="h-8 bg-muted rounded w-48 mb-2 animate-pulse"></div>
+                        <div className="h-4 bg-muted rounded w-80 animate-pulse"></div>
+                    </div>
+                    <div className="h-10 bg-muted rounded w-36 animate-pulse"></div>
+                </div>
+
+                {/* Balance Cards Skeleton */}
+                <div className="grid gap-4 md:grid-cols-4">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="p-6 border rounded-lg bg-card animate-pulse">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="h-4 bg-muted rounded w-32"></div>
+                                <div className="w-4 h-4 bg-muted rounded"></div>
+                            </div>
+                            <div className="h-8 bg-muted rounded w-24 mb-1"></div>
+                            <div className="h-3 bg-muted rounded w-28"></div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Payout History Skeleton */}
+                <div className="border rounded-lg bg-card overflow-hidden animate-pulse">
+                    <div className="p-6 border-b">
+                        <div className="h-6 bg-muted rounded w-40"></div>
+                    </div>
+                    <div className="divide-y">
+                        {[...Array(3)].map((_, i) => (
+                            <div key={i} className="p-6">
+                                <div className="flex items-start justify-between">
+                                    <div className="flex-1 space-y-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-8 bg-muted rounded w-32"></div>
+                                            <div className="h-6 bg-muted rounded w-24"></div>
+                                        </div>
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                            {[...Array(4)].map((_, j) => (
+                                                <div key={j}>
+                                                    <div className="h-3 bg-muted rounded w-24 mb-2"></div>
+                                                    <div className="h-4 bg-muted rounded w-32"></div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }
