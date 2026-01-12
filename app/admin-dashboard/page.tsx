@@ -106,29 +106,28 @@ export default function AdminDashboardPage() {
 
     // Skeleton loader components
     const SkeletonCard = () => (
-        <div className="p-6 border rounded-lg bg-card shadow-sm animate-pulse">
-            <div className="flex items-center justify-between mb-4">
-                <div className="h-5 bg-muted rounded w-32"></div>
+        <div className="p-6 border rounded-lg bg-card hover:bg-accent transition-colors animate-pulse">
+            <div className="flex items-center justify-between mb-2">
+                <div className="h-4 bg-muted rounded w-24 sm:w-32"></div>
                 <div className="w-5 h-5 bg-muted rounded"></div>
             </div>
-            <div className="h-8 bg-muted rounded w-20 mb-2"></div>
-            <div className="flex items-center gap-2">
-                <div className="h-4 bg-muted rounded w-16"></div>
-                <div className="h-4 bg-muted rounded w-4"></div>
+            <div className="flex items-baseline justify-between">
+                <div className="h-8 bg-muted rounded w-16 sm:w-20"></div>
+                <div className="flex items-center gap-1">
+                    <div className="h-4 w-4 bg-muted rounded"></div>
+                    <div className="h-4 bg-muted rounded w-12 sm:w-16"></div>
+                </div>
             </div>
         </div>
     );
 
     const SkeletonChart = () => (
-        <div className="p-6 border rounded-lg bg-card shadow-sm animate-pulse">
-            <div className="flex items-center justify-between mb-4">
-                <div className="h-6 bg-muted rounded w-56"></div>
-                <div className="flex items-center gap-2">
-                    <div className="h-8 bg-muted rounded w-28"></div>
-                    <div className="h-8 bg-muted rounded w-24"></div>
-                </div>
+        <div className="p-3 sm:p-6 border rounded-lg bg-card shadow-sm animate-pulse">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-4">
+                <div className="h-5 sm:h-6 bg-muted rounded w-40 sm:w-56"></div>
+                <div className="h-8 bg-muted rounded w-28"></div>
             </div>
-            <div className="h-[300px] bg-muted/10 rounded border border-muted/20 relative overflow-hidden">
+            <div className="h-[250px] sm:h-[300px] bg-muted/10 rounded border border-muted/20 relative overflow-hidden">
                 {/* Chart grid lines */}
                 <div className="absolute inset-0 flex flex-col justify-between p-4">
                     {[...Array(5)].map((_, i) => (
@@ -156,9 +155,9 @@ export default function AdminDashboardPage() {
     );
 
     const SkeletonPieChart = () => (
-        <div className="p-6 border rounded-lg bg-card shadow-sm animate-pulse">
-            <div className="h-6 bg-muted rounded w-48 mb-4"></div>
-            <div className="h-[300px] bg-muted/10 rounded border border-muted/20 flex items-center justify-center relative">
+        <div className="p-3 sm:p-6 border rounded-lg bg-card shadow-sm animate-pulse">
+            <div className="h-5 sm:h-6 bg-muted rounded w-40 sm:w-48 mb-4"></div>
+            <div className="h-[250px] sm:h-[300px] bg-muted/10 rounded border border-muted/20 flex items-center justify-center relative">
                 <div className="w-48 h-48 bg-muted/30 rounded-full relative overflow-hidden">
                     {/* Pie segments simulation */}
                     <div className="absolute inset-0">
@@ -189,10 +188,26 @@ export default function AdminDashboardPage() {
         return (
             <div className="space-y-6">
                 <div>
-                    <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-                    <p className="text-muted-foreground mt-2">
+                    <h1 className="text-2xl sm:text-3xl font-bold">Admin Dashboard</h1>
+                    <p className="text-muted-foreground mt-2 text-sm sm:text-base">
                         Welcome to the admin dashboard. Manage your platform from here.
                     </p>
+                </div>
+
+                {/* Time Range Selector Skeleton */}
+                <div className="p-4 border rounded-lg bg-card animate-pulse">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-muted rounded"></div>
+                            <div className="h-4 bg-muted rounded w-20"></div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                            {[...Array(9)].map((_, i) => (
+                                <div key={i} className="h-8 bg-muted rounded w-20"></div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="mt-3 h-3 bg-muted rounded w-48"></div>
                 </div>
 
                 {/* Statistics Cards Skeleton */}
@@ -203,14 +218,14 @@ export default function AdminDashboardPage() {
                     <SkeletonCard />
                 </div>
 
-                {/* Charts Section Skeleton */}
-                <div className="grid gap-6 md:grid-cols-2">
+                {/* Charts Section Skeleton - Growth Over Time + User Role Distribution */}
+                <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
                     <SkeletonChart />
                     <SkeletonPieChart />
                 </div>
 
-                {/* Events Charts Section Skeleton */}
-                <div className="grid gap-6 md:grid-cols-2">
+                {/* Events Charts Section Skeleton - Events Over Time + Event Mode Distribution */}
+                <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
                     <SkeletonChart />
                     <SkeletonPieChart />
                 </div>
