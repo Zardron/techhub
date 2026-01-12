@@ -62,11 +62,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             );
         }
 
-        // Check capacity
+        // Check capacity - only count confirmed bookings
         if (event.capacity) {
             const Booking = (await import("@/database/booking.model")).default;
-            const bookingCount = await Booking.countDocuments({ eventId: event._id });
-            if (bookingCount >= event.capacity) {
+            const confirmedBookingCount = await Booking.countDocuments({ 
+                eventId: event._id,
+                $or: [
+                    { paymentStatus: 'confirmed' },
+                    { paymentStatus: { $exists: false } }, // Free events don't have paymentStatus
+                    { paymentStatus: null } // Handle null values
+                ]
+            });
+            if (confirmedBookingCount >= event.capacity) {
                 return NextResponse.json(
                     { message: "Event is sold out" },
                     { status: 400 }

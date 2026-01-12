@@ -16,6 +16,10 @@ interface Booking {
         image: string;
         mode: string;
     };
+    ticketNumber?: string | null;
+    paymentStatus?: 'pending' | 'confirmed' | 'rejected';
+    paymentMethod?: string;
+    receiptUrl?: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -67,7 +71,7 @@ export const useCreateBooking = () => {
     const router = useRouter();
 
     return useMutation({
-        mutationFn: async (eventSlug: string) => {
+        mutationFn: async (data: { eventSlug: string; paymentMethod?: string; receiptUrl?: string }) => {
             if (!token) {
                 router.push('/sign-in');
                 throw new Error('Not authenticated');
@@ -79,10 +83,10 @@ export const useCreateBooking = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({ eventSlug }),
+                body: JSON.stringify(data),
             });
 
-            const data = await response.json();
+            const responseData = await response.json();
 
             if (response.status === 401) {
                 useAuthStore.getState().clearAuth();
@@ -91,10 +95,10 @@ export const useCreateBooking = () => {
             }
 
             if (!response.ok) {
-                throw new Error(data.message || 'Failed to create booking');
+                throw new Error(responseData.message || 'Failed to create booking');
             }
 
-            return data;
+            return responseData;
         },
         onSuccess: () => {
             // Invalidate bookings query to refetch

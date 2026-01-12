@@ -39,10 +39,17 @@ export async function GET(
         const ticket = await Ticket.findOne({ ticketNumber })
             .populate({
                 path: 'bookingId',
-                populate: {
-                    path: 'eventId',
-                    model: 'Event',
-                },
+                populate: [
+                    {
+                        path: 'eventId',
+                        model: 'Event',
+                    },
+                    {
+                        path: 'userId',
+                        model: 'User',
+                        select: 'name email avatar',
+                    },
+                ],
             });
 
         if (!ticket) {
@@ -54,6 +61,7 @@ export async function GET(
 
         const booking = ticket.bookingId as any;
         const event = booking?.eventId;
+        const bookingUser = booking?.userId as any;
 
         if (!event) {
             return NextResponse.json(
@@ -62,8 +70,23 @@ export async function GET(
             );
         }
 
-        // Verify ticket belongs to user
-        if (booking.email !== user.email) {
+        // Verify ticket belongs to user OR user is organizer/admin of the event
+        const isTicketOwner = booking.email === user.email;
+        const isAdmin = user.role === 'admin';
+        
+        // Check if user is organizer of the event
+        // Handle both cases: event.organizerId can point to user._id OR user.organizerId
+        let isOrganizer = false;
+        if (user.role === 'organizer' && event.organizerId) {
+            const eventOrganizerId = event.organizerId.toString();
+            const userId = user._id.toString();
+            const userOrganizerId = user.organizerId?.toString();
+            
+            // Check if event belongs to user (either via user._id or user.organizerId)
+            isOrganizer = eventOrganizerId === userId || (userOrganizerId && eventOrganizerId === userOrganizerId);
+        }
+
+        if (!isTicketOwner && !isOrganizer && !isAdmin) {
             return NextResponse.json(
                 { message: "You don't have access to this ticket" },
                 { status: 403 }
@@ -77,6 +100,7 @@ export async function GET(
                 qrCode: ticket.qrCode,
                 status: ticket.status,
                 checkedInAt: ticket.checkedInAt,
+                bookingId: booking._id.toString(),
                 event: {
                     title: event.title,
                     date: event.date,
@@ -87,6 +111,11 @@ export async function GET(
                 },
                 booking: {
                     createdAt: booking.createdAt,
+                },
+                user: {
+                    name: bookingUser?.name || booking.email?.split('@')[0] || 'Guest',
+                    email: booking.email,
+                    avatar: bookingUser?.avatar,
                 },
             }
         });
