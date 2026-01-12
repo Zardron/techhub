@@ -1,10 +1,11 @@
 "use client"
 
-import { LogOut, PanelLeftOpen, PanelRightOpen, User, Clock, ArrowUp } from "lucide-react"
+import { LogOut, PanelLeftOpen, PanelRightOpen, User, Clock, ArrowUp, Calendar } from "lucide-react"
 import { useState, useEffect, useMemo } from "react"
 import { useAuth } from "@/lib/hooks/use-auth"
 import { useQuery } from "@tanstack/react-query"
 import { useAuthStore } from "@/lib/store/auth.store"
+import { useOrganizerStats } from "@/lib/hooks/api/organizer.queries"
 import NotificationCenter from "@/components/NotificationCenter"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -40,6 +41,9 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
         enabled: !!token,
     });
 
+    // Fetch organizer stats to get event count
+    const { data: statsData } = useOrganizerStats();
+
     // Fix: handleSuccessResponse spreads the data object, so plans are directly in plansData.plans
     const plans = plansData?.plans || plansData?.data?.plans || [];
     const subscription = subscriptionData?.subscription || subscriptionData?.data?.subscription;
@@ -47,6 +51,13 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
 
     // Get plan name to display
     const planName = currentPlan?.name || "Free Plan";
+
+    // Calculate remaining events
+    const maxEvents = currentPlan?.features?.maxEvents;
+    const totalEvents = statsData?.data?.totalEvents || 0;
+    const remainingEvents = maxEvents === null || maxEvents === undefined 
+        ? null 
+        : Math.max(0, maxEvents - totalEvents);
 
     // Determine if plan is upgradable
     const isUpgradable = useMemo(() => {
@@ -175,6 +186,25 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
                         </Link>
                     ) : null}
                 </div>
+                {/* Remaining Events Display */}
+                {remainingEvents !== null && (
+                    <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50 border border-border/50 mr-2">
+                        <Calendar className="w-4 h-4 text-muted-foreground shrink-0" />
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-xs text-muted-foreground whitespace-nowrap">Events:</span>
+                            <span className={`text-sm font-semibold whitespace-nowrap ${
+                                remainingEvents === 0 
+                                    ? "text-red-500" 
+                                    : remainingEvents <= 5 
+                                        ? "text-amber-500" 
+                                        : "text-green-500"
+                            }`}>
+                                {remainingEvents}
+                            </span>
+                            <span className="text-xs text-muted-foreground whitespace-nowrap">/ {maxEvents}</span>
+                        </div>
+                    </div>
+                )}
                 <NotificationCenter />
                 <div className="relative">
                     <button
