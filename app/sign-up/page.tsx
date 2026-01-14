@@ -106,7 +106,7 @@ const SignUpPage = () => {
             </div>
 
             {/* Main Glassmorphism Container */}
-            <div className="w-full max-w-5xl mx-auto bg-dark-100/40 backdrop-blur-2xl border border-blue/20 rounded-2xl shadow-2xl overflow-hidden relative animate-scale-in">
+            <div className="w-full max-w-5xl mx-auto bg-dark-100/40 backdrop-blur-2xl border border-blue/20 rounded-md shadow-2xl overflow-hidden relative animate-scale-in">
                 {/* Subtle inner glow */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue/5 pointer-events-none" />
 
@@ -118,7 +118,7 @@ const SignUpPage = () => {
                             <div className="animate-fade-in-up">
                                 {/* Logo */}
                                 <Link href="/" className="flex items-center gap-3 mb-8 w-fit group">
-                                    <div className="w-10 h-10 rounded-lg bg-transparent border border-blue/30 flex items-center justify-center p-2 shadow-[0_0_20px_rgba(148,234,255,0.2)] group-hover:shadow-[0_0_30px_rgba(148,234,255,0.3)] transition-all duration-300">
+                                    <div className="w-10 h-10 rounded-md bg-transparent border border-blue/30 flex items-center justify-center p-2 shadow-[0_0_20px_rgba(148,234,255,0.2)] group-hover:shadow-[0_0_30px_rgba(148,234,255,0.3)] transition-all duration-300">
                                         <Image
                                             src="/icons/logo.png"
                                             alt="TechEventX Logo"
@@ -144,19 +144,19 @@ const SignUpPage = () => {
                                 {/* Features List */}
                                 <div className="space-y-3 mb-8">
                                     <div className="flex items-center gap-3 animate-fade-in-up animate-delay-200">
-                                        <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
+                                        <div className="w-8 h-8 rounded-md bg-primary/20 border border-primary/30 flex items-center justify-center">
                                             <span className="text-primary text-lg">✓</span>
                                         </div>
                                         <p className="text-light-100 text-sm">Discover exclusive developer events</p>
                                     </div>
                                     <div className="flex items-center gap-3 animate-fade-in-up animate-delay-300">
-                                        <div className="w-8 h-8 rounded-lg bg-blue/20 border border-blue/30 flex items-center justify-center">
+                                        <div className="w-8 h-8 rounded-md bg-blue/20 border border-blue/30 flex items-center justify-center">
                                             <span className="text-blue text-lg">✓</span>
                                         </div>
                                         <p className="text-light-100 text-sm">Build your professional network</p>
                                     </div>
                                     <div className="flex items-center gap-3 animate-fade-in-up animate-delay-400">
-                                        <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
+                                        <div className="w-8 h-8 rounded-md bg-primary/20 border border-primary/30 flex items-center justify-center">
                                             <span className="text-primary text-lg">✓</span>
                                         </div>
                                         <p className="text-light-100 text-sm">Book and manage your events</p>
@@ -177,7 +177,7 @@ const SignUpPage = () => {
                             {/* Mobile Logo */}
                             <div className="lg:hidden mb-8 text-center animate-fade-in-up">
                                 <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
-                                    <div className="w-10 h-10 rounded-lg bg-transparent border border-blue/30 flex items-center justify-center p-2 shadow-[0_0_15px_rgba(148,234,255,0.15)] group-hover:shadow-[0_0_25px_rgba(148,234,255,0.25)] transition-all duration-300">
+                                    <div className="w-10 h-10 rounded-md bg-transparent border border-blue/30 flex items-center justify-center p-2 shadow-[0_0_15px_rgba(148,234,255,0.15)] group-hover:shadow-[0_0_25px_rgba(148,234,255,0.25)] transition-all duration-300">
                                         <Image
                                             src="/icons/logo.png"
                                             alt="TechEventX Logo"
@@ -209,7 +209,7 @@ const SignUpPage = () => {
                             </div>
 
                             {/* Sign Up Form Card */}
-                            <div className="bg-dark-200/60 backdrop-blur-xl border border-blue/20 rounded-xl shadow-lg px-5 py-6 relative overflow-hidden animate-fade-in-up">
+                            <div className="bg-dark-200/60 backdrop-blur-xl border border-blue/20 rounded-md shadow-lg px-5 py-6 relative overflow-hidden animate-fade-in-up">
                                 {/* Subtle glow effect inside card */}
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
@@ -235,7 +235,7 @@ const SignUpPage = () => {
                                                 }}
                                                 required
                                                 maxLength={100}
-                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-lg px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.name ? 'border-red-500/50' : 'border-border-dark/50'
+                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-md px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.name ? 'border-red-500/50' : 'border-border-dark/50'
                                                     }`}
                                             />
                                             {errors.name && (
@@ -262,7 +262,7 @@ const SignUpPage = () => {
                                                     if (errors.email) setErrors({ ...errors, email: '' });
                                                 }}
                                                 required
-                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-lg px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.email ? 'border-red-500/50' : 'border-border-dark/50'
+                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-md px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.email ? 'border-red-500/50' : 'border-border-dark/50'
                                                     }`}
                                             />
                                             {errors.email && (
@@ -292,7 +292,7 @@ const SignUpPage = () => {
                                                     }
                                                 }}
                                                 required
-                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-lg px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.password ? 'border-red-500/50' : 'border-border-dark/50'
+                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-md px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.password ? 'border-red-500/50' : 'border-border-dark/50'
                                                     }`}
                                             />
                                             {errors.password && (
@@ -322,7 +322,7 @@ const SignUpPage = () => {
                                                     if (errors.confirmPassword) setErrors({ ...errors, confirmPassword: '' });
                                                 }}
                                                 required
-                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-lg px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.confirmPassword ? 'border-red-500/50' : 'border-border-dark/50'
+                                                className={`bg-dark-100/80 backdrop-blur-sm rounded-md px-4 py-2.5 w-full text-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 border transition-all duration-300 hover:border-blue/30 ${errors.confirmPassword ? 'border-red-500/50' : 'border-border-dark/50'
                                                     }`}
                                             />
                                             {errors.confirmPassword && (
@@ -332,7 +332,7 @@ const SignUpPage = () => {
 
                                         {/* API Error Message */}
                                         {signUpMutation.isError && (
-                                            <div className="bg-red-500/10 border border-red-500/50 rounded-lg px-4 py-2.5 text-red-400 text-xs">
+                                            <div className="bg-red-500/10 border border-red-500/50 rounded-md px-4 py-2.5 text-red-400 text-xs">
                                                 {signUpMutation.error instanceof Error
                                                     ? signUpMutation.error.message
                                                     : 'Something went wrong. Please try again.'}
@@ -341,7 +341,7 @@ const SignUpPage = () => {
 
                                         {/* Success Message */}
                                         {success && (
-                                            <div className="bg-green-500/10 border border-green-500/50 rounded-lg px-4 py-2.5 text-green-400 text-xs">
+                                            <div className="bg-green-500/10 border border-green-500/50 rounded-md px-4 py-2.5 text-green-400 text-xs">
                                                 {success}
                                             </div>
                                         )}
@@ -350,7 +350,7 @@ const SignUpPage = () => {
                                         <button
                                             type="submit"
                                             disabled={signUpMutation.isPending}
-                                            className="bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-lg px-4 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/50 mt-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                                            className="bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-md px-4 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/50 mt-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                                         >
                                             {signUpMutation.isPending ? 'Creating account...' : 'Sign up'}
                                         </button>

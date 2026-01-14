@@ -93,7 +93,7 @@ export default function BecomeOrganizerPage() {
                         <ArrowLeft className="w-4 h-4" />
                         <span>Back to Home</span>
                     </Link>
-                    <div className="glass rounded-2xl p-8 md:p-12 border border-primary/30 text-center card-shadow">
+                    <div className="glass rounded-md p-8 md:p-12 border border-primary/30 text-center card-shadow">
                         <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/20 flex items-center justify-center">
                             <AlertCircle className="w-10 h-10 text-primary" />
                         </div>
@@ -135,7 +135,7 @@ export default function BecomeOrganizerPage() {
                         <ArrowLeft className="w-4 h-4" />
                         <span>Back to Home</span>
                     </Link>
-                    <div className="glass rounded-2xl p-8 md:p-12 border border-primary/30 text-center card-shadow">
+                    <div className="glass rounded-md p-8 md:p-12 border border-primary/30 text-center card-shadow">
                         <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
                             <CheckCircle className="w-10 h-10 text-green-500" />
                         </div>
@@ -235,9 +235,9 @@ export default function BecomeOrganizerPage() {
                 <div className="grid gap-8 md:grid-cols-3">
                     {/* Left Column - Info Cards */}
                     <div className="md:col-span-1 space-y-4">
-                        <div className="glass rounded-xl p-6 border border-primary/20">
+                        <div className="glass rounded-md p-6 border border-primary/20">
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
                                     <AlertCircle className="w-5 h-5 text-primary" />
                                 </div>
                                 <h3 className="font-semibold">Review Process</h3>
@@ -248,9 +248,9 @@ export default function BecomeOrganizerPage() {
                             </p>
                         </div>
 
-                        <div className="glass rounded-xl p-6 border border-blue/20">
+                        <div className="glass rounded-md p-6 border border-blue/20">
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-10 h-10 rounded-lg bg-blue/10 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-md bg-blue/10 flex items-center justify-center">
                                     <Building2 className="w-5 h-5 text-blue" />
                                 </div>
                                 <h3 className="font-semibold">What You Get</h3>
@@ -278,7 +278,7 @@ export default function BecomeOrganizerPage() {
 
                     {/* Right Column - Application Form */}
                     <div className="md:col-span-2">
-                        <div className="glass rounded-2xl p-6 md:p-8 border border-primary/30 card-shadow">
+                        <div className="glass rounded-md p-6 md:p-8 border border-primary/30 card-shadow">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-1 h-8 bg-primary rounded-full" />
                                 <h2 className="text-2xl font-bold">Application Form</h2>
@@ -327,7 +327,7 @@ export default function BecomeOrganizerPage() {
                                     <textarea
                                         value={formData.description}
                                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                        className="w-full min-h-[150px] p-4 border border-blue/30 rounded-xl bg-dark-200/60 backdrop-blur-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all resize-y"
+                                        className="w-full min-h-[150px] p-4 border border-blue/30 rounded-md bg-dark-200/60 backdrop-blur-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all resize-y"
                                         placeholder="Tell us about your organization, your experience with event planning, and what types of events you plan to host..."
                                         required
                                     />
@@ -401,7 +401,7 @@ export default function BecomeOrganizerPage() {
                                             value={formData.planId}
                                             onChange={(e) => setFormData({ ...formData, planId: e.target.value })}
                                             disabled={plansLoading}
-                                            className="w-full h-9 px-4 border border-blue/30 rounded-xl bg-dark-200/60 backdrop-blur-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all appearance-none cursor-pointer pr-9 disabled:cursor-not-allowed disabled:opacity-50"
+                                            className="w-full h-9 px-4 border border-blue/30 rounded-md bg-dark-200/60 backdrop-blur-sm text-foreground placeholder:text-light-200/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all appearance-none cursor-pointer pr-9 disabled:cursor-not-allowed disabled:opacity-50"
                                             style={{ colorScheme: 'dark' }}
                                         >
                                             <option value="">Select a plan (optional)</option>
