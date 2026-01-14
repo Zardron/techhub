@@ -228,7 +228,7 @@ export default function ProfilePage() {
 
                 <div className="grid gap-6 md:grid-cols-2">
                     {/* Profile Settings */}
-                    <div className="p-6 border rounded-lg bg-card">
+                    <div className="p-6 border rounded-md bg-card">
                         <div className="flex items-center gap-3 mb-6">
                             <User className="w-5 h-5" />
                             <h2 className="text-xl font-semibold">Profile Information</h2>
@@ -260,7 +260,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Security Settings */}
-                    <div className="p-6 border rounded-lg bg-card">
+                    <div className="p-6 border rounded-md bg-card">
                         <div className="flex items-center gap-3 mb-6">
                             <Lock className="w-5 h-5" />
                             <h2 className="text-xl font-semibold">Security</h2>
@@ -270,7 +270,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Notification Preferences */}
-                    <div className="p-6 border rounded-lg bg-card md:col-span-2">
+                    <div className="p-6 border rounded-md bg-card md:col-span-2">
                         <div className="flex items-center gap-3 mb-6">
                             <Bell className="w-5 h-5" />
                             <h2 className="text-xl font-semibold">Email Notifications</h2>

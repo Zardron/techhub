@@ -118,7 +118,7 @@ export default function MyTicketPage() {
                 </Link>
 
                 {/* Main Container - Centered with 2 Columns */}
-                <div className="glass rounded-2xl border border-border-dark/50 shadow-2xl overflow-hidden">
+                <div className="glass rounded-md border border-border-dark/50 shadow-2xl overflow-hidden">
                     {/* Header */}
                     <div className="bg-gradient-to-r from-primary/20 via-primary/10 to-transparent p-6 md:p-8 border-b border-border-dark/50">
                         <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gradient">Your Ticket</h1>
@@ -131,10 +131,10 @@ export default function MyTicketPage() {
                             {/* Left Column - QR Code */}
                             <div className="flex flex-col items-center justify-center space-y-6">
                                 <div className="w-full max-w-sm">
-                                    <div className="bg-dark-200/30 rounded-2xl p-8 border border-border-dark/30 text-center">
+                                    <div className="bg-dark-200/30 rounded-md p-8 border border-border-dark/30 text-center">
                                         <QrCode className="w-8 h-8 mx-auto mb-4 text-primary" />
                                         <h3 className="text-xl font-semibold mb-6 text-light-100">QR Code</h3>
-                                        <div className="bg-white p-6 rounded-xl inline-block shadow-lg">
+                                        <div className="bg-white p-6 rounded-md inline-block shadow-lg">
                                             <Image
                                                 src={ticket.qrCode}
                                                 alt="QR Code"
@@ -151,7 +151,7 @@ export default function MyTicketPage() {
                                 </div>
                                 
                                 {/* Ticket Number */}
-                                <div className="w-full max-w-sm p-4 border border-border-dark/30 rounded-xl bg-dark-200/20">
+                                <div className="w-full max-w-sm p-4 border border-border-dark/30 rounded-md bg-dark-200/20">
                                     <p className="text-xs text-light-200 uppercase tracking-wider mb-2">Ticket Number</p>
                                     <p className="font-mono font-bold text-lg text-primary">{ticket.ticketNumber}</p>
                                 </div>
@@ -164,7 +164,7 @@ export default function MyTicketPage() {
                                     <h2 className="text-2xl md:text-3xl font-bold mb-6 text-light-100">{ticket.event.title}</h2>
                                     
                                     {/* Event Image */}
-                                    <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden mb-6 border border-border-dark/30">
+                                    <div className="relative w-full h-48 md:h-64 rounded-md overflow-hidden mb-6 border border-border-dark/30">
                                         <Image
                                             src={ticket.event.image}
                                             alt={ticket.event.title}
@@ -176,7 +176,7 @@ export default function MyTicketPage() {
 
                                     {/* Event Information Cards */}
                                     <div className="space-y-4">
-                                        <div className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
+                                        <div className="flex items-start gap-4 p-4 rounded-md bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
                                             <Calendar className="w-5 h-5 text-primary mt-1 shrink-0" />
                                             <div>
                                                 <p className="text-xs text-light-200 uppercase tracking-wider mb-1">Date</p>
@@ -184,7 +184,7 @@ export default function MyTicketPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
+                                        <div className="flex items-start gap-4 p-4 rounded-md bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
                                             <Clock className="w-5 h-5 text-primary mt-1 shrink-0" />
                                             <div>
                                                 <p className="text-xs text-light-200 uppercase tracking-wider mb-1">Time</p>
@@ -192,7 +192,7 @@ export default function MyTicketPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
+                                        <div className="flex items-start gap-4 p-4 rounded-md bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
                                             <MapPin className="w-5 h-5 text-primary mt-1 shrink-0" />
                                             <div>
                                                 <p className="text-xs text-light-200 uppercase tracking-wider mb-1">Location</p>
@@ -202,7 +202,7 @@ export default function MyTicketPage() {
                                         </div>
 
                                         {ticket.event.mode && (
-                                            <div className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
+                                            <div className="flex items-start gap-4 p-4 rounded-md bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
                                                 <div className="w-5 h-5 mt-1 shrink-0 flex items-center justify-center">
                                                     <span className="text-primary text-xs">📍</span>
                                                 </div>
@@ -214,7 +214,7 @@ export default function MyTicketPage() {
                                         )}
 
                                         {ticket.event.organizer && (
-                                            <div className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
+                                            <div className="flex items-start gap-4 p-4 rounded-md bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
                                                 <div className="w-5 h-5 mt-1 shrink-0 flex items-center justify-center">
                                                     <span className="text-primary text-xs">👤</span>
                                                 </div>
@@ -231,7 +231,7 @@ export default function MyTicketPage() {
                                 <div className="pt-6 border-t border-border-dark/30">
                                     <h3 className="text-xl font-bold mb-4 text-light-100">Attendee Information</h3>
                                     <div className="space-y-4">
-                                        <div className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
+                                        <div className="flex items-start gap-4 p-4 rounded-md bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
                                             <User className="w-5 h-5 text-primary mt-1 shrink-0" />
                                             <div>
                                                 <p className="text-xs text-light-200 uppercase tracking-wider mb-1">Name</p>
@@ -239,7 +239,7 @@ export default function MyTicketPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
+                                        <div className="flex items-start gap-4 p-4 rounded-md bg-dark-200/20 hover:bg-dark-200/30 transition-colors duration-200 border border-border-dark/30">
                                             <Mail className="w-5 h-5 text-primary mt-1 shrink-0" />
                                             <div>
                                                 <p className="text-xs text-light-200 uppercase tracking-wider mb-1">Email</p>

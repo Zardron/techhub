@@ -202,7 +202,7 @@ export default function BookingTicketPage() {
                     </Button>
                 </Link>
 
-                <div className="bg-card border rounded-2xl shadow-lg overflow-hidden">
+                <div className="bg-card border rounded-md shadow-lg overflow-hidden">
                     {/* Header */}
                     <div className="bg-gradient-to-r from-primary/20 to-primary/10 p-8 border-b">
                         <h1 className="text-3xl font-bold mb-2">Your Ticket</h1>
@@ -215,7 +215,7 @@ export default function BookingTicketPage() {
                             <div className="space-y-6">
                                 <div>
                                     <h2 className="text-2xl font-bold mb-4">{ticket.event.title}</h2>
-                                    <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4">
+                                    <div className="relative w-full h-48 rounded-md overflow-hidden mb-4">
                                         <Image
                                             src={ticket.event.image}
                                             alt={ticket.event.title}
@@ -255,10 +255,10 @@ export default function BookingTicketPage() {
 
                             {/* QR Code */}
                             <div className="space-y-6">
-                                <div className="bg-muted/50 p-6 rounded-lg text-center">
+                                <div className="bg-muted/50 p-6 rounded-md text-center">
                                     <QrCode className="w-8 h-8 mx-auto mb-4 text-muted-foreground" />
                                     <h3 className="font-semibold mb-4">QR Code</h3>
-                                    <div className="bg-white p-4 rounded-lg inline-block">
+                                    <div className="bg-white p-4 rounded-md inline-block">
                                         <QRCodeSVG
                                             value={JSON.stringify({
                                                 ticketNumber: ticket.ticketNumber,
@@ -276,7 +276,7 @@ export default function BookingTicketPage() {
                                     </p>
                                 </div>
 
-                                <div className="p-4 border rounded-lg">
+                                <div className="p-4 border rounded-md">
                                     <p className="text-sm text-muted-foreground mb-1">Ticket Number</p>
                                     <p className="font-mono font-bold text-lg">{ticket.ticketNumber}</p>
                                 </div>
@@ -422,7 +422,7 @@ export default function BookingTicketPage() {
                                 </div>
 
                                 {showTransferForm && (
-                                    <div className="mt-4 p-4 border rounded-lg bg-muted/50 space-y-4">
+                                    <div className="mt-4 p-4 border rounded-md bg-muted/50 space-y-4">
                                         <h3 className="font-semibold">Transfer Ticket</h3>
                                         <FormInput
                                             label="Recipient Email"

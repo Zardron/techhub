@@ -105,21 +105,21 @@ export default function PaymentsPage() {
 
                 {/* Summary Cards */}
                 <div className="grid gap-4 md:grid-cols-3 mb-8">
-                    <div className="p-6 border rounded-lg bg-card">
+                    <div className="p-6 border rounded-md bg-card">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-sm text-muted-foreground">Total Spent</p>
                             <DollarSign className="w-4 h-4 text-muted-foreground" />
                         </div>
                         <p className="text-2xl font-bold">{formatPrice(summary.totalSpent)}</p>
                     </div>
-                    <div className="p-6 border rounded-lg bg-card">
+                    <div className="p-6 border rounded-md bg-card">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-sm text-muted-foreground">Total Refunded</p>
                             <X className="w-4 h-4 text-muted-foreground" />
                         </div>
                         <p className="text-2xl font-bold text-gray-500">{formatPrice(summary.totalRefunded)}</p>
                     </div>
-                    <div className="p-6 border rounded-lg bg-card">
+                    <div className="p-6 border rounded-md bg-card">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-sm text-muted-foreground">Total Transactions</p>
                             <CreditCard className="w-4 h-4 text-muted-foreground" />
@@ -173,7 +173,7 @@ export default function PaymentsPage() {
                             return (
                                 <div
                                     key={transaction.id}
-                                    className="p-6 border rounded-lg bg-card hover:bg-muted/50 transition-colors"
+                                    className="p-6 border rounded-md bg-card hover:bg-muted/50 transition-colors"
                                 >
                                     <div className="flex items-start justify-between gap-4">
                                         {transaction.event && (
@@ -181,7 +181,7 @@ export default function PaymentsPage() {
                                                 href={`/events/${transaction.event.slug}`}
                                                 className="flex items-center gap-4 flex-1 min-w-0"
                                             >
-                                                <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
+                                                <div className="relative w-20 h-20 rounded-md overflow-hidden shrink-0">
                                                     <Image
                                                         src={transaction.event.image}
                                                         alt={transaction.event.title}

@@ -191,7 +191,7 @@ export default function NotificationsPage() {
             </div>
 
             {notifications.length === 0 ? (
-                <div className="p-12 text-center border rounded-lg bg-card">
+                <div className="p-12 text-center border rounded-md bg-card">
                     <Bell className="w-16 h-16 mx-auto text-muted-foreground/20 mb-4" />
                     <p className="text-muted-foreground">
                         {unreadOnly ? "No unread notifications" : "No notifications yet"}
@@ -202,7 +202,7 @@ export default function NotificationsPage() {
                     {notifications.map((notification: any) => (
                         <div
                             key={notification.id}
-                            className={`group relative p-4 border rounded-lg bg-card hover:bg-muted/50 transition-colors ${
+                            className={`group relative p-4 border rounded-md bg-card hover:bg-muted/50 transition-colors ${
                                 !notification.read ? 'border-primary/20 bg-primary/5' : ''
                             }`}
                         >

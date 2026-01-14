@@ -81,7 +81,7 @@ export default function MyApplicationsPage() {
                 </div>
 
                 {applications.length === 0 ? (
-                    <div className="p-6 border rounded-lg bg-card">
+                    <div className="p-6 border rounded-md bg-card">
                         <div className="text-center py-12">
                             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                                 <FileText className="w-8 h-8 text-muted-foreground/50" />
@@ -102,7 +102,7 @@ export default function MyApplicationsPage() {
                         {applications.map((application) => (
                             <div
                                 key={application.id}
-                                className="p-6 border rounded-lg bg-card"
+                                className="p-6 border rounded-md bg-card"
                             >
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex-1">
@@ -141,7 +141,7 @@ export default function MyApplicationsPage() {
                                         )}
 
                                         {application.status === 'pending' && (
-                                            <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                                            <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-md">
                                                 <div className="flex items-start gap-3">
                                                     <Clock className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                                                     <div>
@@ -158,7 +158,7 @@ export default function MyApplicationsPage() {
 
                                         {application.status === 'approved' && (
                                             <div className="mt-4 space-y-3">
-                                                <div className="p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-2 border-green-500/40 rounded-lg shadow-lg">
+                                                <div className="p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-2 border-green-500/40 rounded-md shadow-lg">
                                                     <div className="flex items-start gap-3 mb-3">
                                                         <div className="shrink-0 w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center border-2 border-green-500/40">
                                                             <CheckCircle className="w-6 h-6 text-green-500" />
@@ -209,7 +209,7 @@ export default function MyApplicationsPage() {
                                         )}
 
                                         {application.status === 'rejected' && application.rejectionReason && (
-                                            <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                                            <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-md">
                                                 <div className="flex items-start gap-3">
                                                     <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                                                     <div>
@@ -246,7 +246,7 @@ export default function MyApplicationsPage() {
                         ))}
 
                         {applications.every((app) => app.status !== 'pending') && (
-                            <div className="p-6 border rounded-lg bg-card text-center">
+                            <div className="p-6 border rounded-md bg-card text-center">
                                 <Link href="/become-organizer">
                                     <Button variant="outline" className="w-full sm:w-auto">
                                         <FileText className="w-4 h-4 mr-2" />

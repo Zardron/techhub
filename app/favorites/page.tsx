@@ -79,7 +79,7 @@ export default function FavoritesPage() {
             </div>
 
             {favorites.length === 0 ? (
-                <div className="p-12 text-center border rounded-lg bg-card">
+                <div className="p-12 text-center border rounded-md bg-card">
                     <Heart className="w-16 h-16 mx-auto text-muted-foreground/20 mb-4" />
                     <p className="text-muted-foreground mb-4">No favorite events yet</p>
                     <Link href="/events">
@@ -91,7 +91,7 @@ export default function FavoritesPage() {
                     {favorites.map((event: any) => (
                         <div
                             key={event.id}
-                            className="border rounded-lg bg-card overflow-hidden hover:shadow-lg transition-shadow"
+                            className="border rounded-md bg-card overflow-hidden hover:shadow-lg transition-shadow"
                         >
                             <Link href={`/events/${event.slug}`}>
                                 <div className="relative w-full h-48">

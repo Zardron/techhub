@@ -372,7 +372,7 @@ const BookingsPage = () => {
             </Link>
           </div>
 
-          <div className="bg-card border rounded-2xl shadow-lg overflow-hidden">
+          <div className="bg-card border rounded-md shadow-lg overflow-hidden">
             {/* Header */}
            
 
@@ -384,7 +384,7 @@ const BookingsPage = () => {
                     <h2 className="text-2xl font-bold mb-4">
                       {ticket.event.title}
                     </h2>
-                    <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4">
+                    <div className="relative w-full h-48 rounded-md overflow-hidden mb-4">
                       <Image
                         src={ticket.event.image}
                         alt={ticket.event.title}
@@ -456,10 +456,10 @@ const BookingsPage = () => {
 
                 {/* QR Code */}
                 <div className="space-y-6">
-                  <div className="bg-muted/50 p-6 rounded-lg text-center">
+                  <div className="bg-muted/50 p-6 rounded-md text-center">
                     <QrCode className="w-8 h-8 mx-auto mb-4 text-muted-foreground" />
                     <h3 className="font-semibold mb-4">QR Code</h3>
-                    <div className="bg-white p-4 rounded-lg inline-block">
+                    <div className="bg-white p-4 rounded-md inline-block">
                       <QRCodeSVG
                         value={JSON.stringify({
                           ticketNumber: ticket.ticketNumber,
@@ -477,7 +477,7 @@ const BookingsPage = () => {
                     </p>
                   </div>
 
-                  <div className="p-4 border rounded-lg">
+                  <div className="p-4 border rounded-md">
                     <p className="text-sm text-muted-foreground mb-1">
                       Ticket Number
                     </p>
@@ -535,7 +535,7 @@ const BookingsPage = () => {
                   </Button>
 
                   {showTransferForm && (
-                    <div className="mt-4 p-4 border rounded-lg bg-muted/50 space-y-4">
+                    <div className="mt-4 p-4 border rounded-md bg-muted/50 space-y-4">
                       <h3 className="font-semibold">Transfer Ticket</h3>
                       <FormInput
                         label="Recipient Email"
@@ -599,7 +599,7 @@ const BookingsPage = () => {
             <p className="text-foreground/60 text-lg">No bookings found</p>
             <Link
               href="/events"
-              className="px-6 py-2.5 rounded-xl bg-linear-to-r from-blue/20 to-primary/20 text-blue border border-blue/30 hover:shadow-[0_0_25px_rgba(148,234,255,0.25)] transition-all duration-300"
+              className="px-6 py-2.5 rounded-md bg-linear-to-r from-blue/20 to-primary/20 text-blue border border-blue/30 hover:shadow-[0_0_25px_rgba(148,234,255,0.25)] transition-all duration-300"
             >
               Browse Events
             </Link>
@@ -608,12 +608,12 @@ const BookingsPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Calendar View */}
             <div className="lg:col-span-2">
-              <div className="bg-dark-200/50 backdrop-blur-xl rounded-xl border border-blue/20 p-6">
+              <div className="bg-dark-200/50 backdrop-blur-xl rounded-md border border-blue/20 p-6">
                 {/* Calendar Header */}
                 <div className="flex items-center justify-between mb-6">
                   <button
                     onClick={() => navigateMonth("prev")}
-                    className="p-2 rounded-lg hover:bg-dark-100/50 transition-colors"
+                    className="p-2 rounded-md hover:bg-dark-100/50 transition-colors"
                   >
                     <ChevronLeft className="w-5 h-5 text-foreground/80" />
                   </button>
@@ -624,14 +624,14 @@ const BookingsPage = () => {
                     </h2>
                     <button
                       onClick={goToToday}
-                      className="px-3 py-1 text-sm rounded-lg bg-blue/10 text-blue hover:bg-blue/20 transition-colors"
+                      className="px-3 py-1 text-sm rounded-md bg-blue/10 text-blue hover:bg-blue/20 transition-colors"
                     >
                       Today
                     </button>
                   </div>
                   <button
                     onClick={() => navigateMonth("next")}
-                    className="p-2 rounded-lg hover:bg-dark-100/50 transition-colors"
+                    className="p-2 rounded-md hover:bg-dark-100/50 transition-colors"
                   >
                     <ChevronRight className="w-5 h-5 text-foreground/80" />
                   </button>
@@ -670,7 +670,7 @@ const BookingsPage = () => {
                         }}
                         disabled={!date}
                         className={`
-                                                    aspect-square p-2 rounded-lg text-sm font-medium transition-all duration-200
+                                                    aspect-square p-2 rounded-md text-sm font-medium transition-all duration-200
                                                     ${
                                                       !date
                                                         ? "cursor-default"
@@ -708,7 +708,7 @@ const BookingsPage = () => {
 
             {/* Selected Date Bookings */}
             <div className="lg:col-span-1">
-              <div className="bg-dark-200/50 backdrop-blur-xl rounded-xl border border-blue/20 p-6 sticky top-20">
+              <div className="bg-dark-200/50 backdrop-blur-xl rounded-md border border-blue/20 p-6 sticky top-20">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-foreground">
                     {showAllBookings
@@ -722,7 +722,7 @@ const BookingsPage = () => {
                       <select
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value as any)}
-                        className="px-3 py-1.5 text-xs rounded-lg bg-blue/10 text-blue border border-blue/20 focus:outline-none focus:ring-2 focus:ring-blue/50"
+                        className="px-3 py-1.5 text-xs rounded-md bg-blue/10 text-blue border border-blue/20 focus:outline-none focus:ring-2 focus:ring-blue/50"
                       >
                         <option value="all">All</option>
                         <option value="upcoming">Upcoming</option>
@@ -736,7 +736,7 @@ const BookingsPage = () => {
                           setShowAllBookings(true);
                           setSelectedDate(null);
                         }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-blue/10 text-blue hover:bg-blue/20 transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md bg-blue/10 text-blue hover:bg-blue/20 transition-colors"
                         title="Show all bookings"
                       >
                         <List className="w-3.5 h-3.5" />
@@ -764,9 +764,9 @@ const BookingsPage = () => {
                           <Link
                             key={booking.id}
                             href={`/events/${booking.event.slug}`}
-                            className="block p-4 rounded-lg bg-dark-100/50 border border-blue/10 hover:border-blue/30 hover:bg-dark-100/70 transition-all duration-200 group"
+                            className="block p-4 rounded-md bg-dark-100/50 border border-blue/10 hover:border-blue/30 hover:bg-dark-100/70 transition-all duration-200 group"
                           >
-                            <div className="relative w-full h-32 mb-3 rounded-lg overflow-hidden">
+                            <div className="relative w-full h-32 mb-3 rounded-md overflow-hidden">
                               <Image
                                 src={booking.event.image}
                                 alt={booking.event.title}
@@ -817,13 +817,13 @@ const BookingsPage = () => {
                       {selectedDateBookings.map((booking) => (
                         <div
                           key={booking.id}
-                          className="block p-4 rounded-lg bg-dark-100/50 border border-blue/10 hover:border-blue/30 hover:bg-dark-100/70 transition-all duration-200 group"
+                          className="block p-4 rounded-md bg-dark-100/50 border border-blue/10 hover:border-blue/30 hover:bg-dark-100/70 transition-all duration-200 group"
                         >
                           <Link
                             href={`/events/${booking.event.slug}`}
                             className="block"
                           >
-                            <div className="relative w-full h-32 mb-3 rounded-lg overflow-hidden">
+                            <div className="relative w-full h-32 mb-3 rounded-md overflow-hidden">
                               <Image
                                 src={booking.event.image}
                                 alt={booking.event.title}
@@ -871,7 +871,7 @@ const BookingsPage = () => {
                     {bookings.length > 0 && (
                       <button
                         onClick={() => setShowAllBookings(true)}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-blue/10 text-blue hover:bg-blue/20 border border-blue/20 transition-colors"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-blue/10 text-blue hover:bg-blue/20 border border-blue/20 transition-colors"
                       >
                         <List className="w-4 h-4" />
                         <span>Show All Bookings</span>
@@ -894,7 +894,7 @@ const BookingsPage = () => {
               {bookings.map((booking) => (
                 <div
                   key={booking.id}
-                  className="group bg-dark-200/50 backdrop-blur-xl rounded-xl border border-blue/20 overflow-hidden hover:border-blue/30 hover:shadow-[0_0_25px_rgba(148,234,255,0.15)] transition-all duration-300"
+                  className="group bg-dark-200/50 backdrop-blur-xl rounded-md border border-blue/20 overflow-hidden hover:border-blue/30 hover:shadow-[0_0_25px_rgba(148,234,255,0.15)] transition-all duration-300"
                 >
                   <Link href={`/events/${booking.event.slug}`}>
                     <div className="relative w-full h-48">
