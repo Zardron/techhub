@@ -99,7 +99,7 @@ const Navbar = ({ sideBarCollapsed, setSideBarCollapsed }: { sideBarCollapsed: b
                     </div>
                 </div>
             </div>
-            <div className="flex items-center gap-2 ml-2 flex-shrink-0 min-w-0">
+            <div className="flex items-center gap-2 ml-2 shrink-0 min-w-0">
                 <NotificationCenter />
                 <div className="relative">
                     <button

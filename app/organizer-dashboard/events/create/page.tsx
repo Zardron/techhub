@@ -261,11 +261,11 @@ export default function CreateEventPage() {
                                         <p className="text-xs font-medium text-muted-foreground mb-2">LIMITS</p>
                                         <div className="space-y-1">
                                             <div className="flex items-center gap-2 text-sm">
-                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <Check className="w-3 h-3 text-green-500 shrink-0" />
                                                 <span>{planInfo.limits.maxEvents}</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-sm">
-                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <Check className="w-3 h-3 text-green-500 shrink-0" />
                                                 <span>{planInfo.limits.maxBookings}</span>
                                             </div>
                                         </div>
@@ -276,7 +276,7 @@ export default function CreateEventPage() {
                                         <div className="space-y-1">
                                             {planInfo.features.map((feature, index) => (
                                                 <div key={index} className="flex items-center gap-2 text-sm">
-                                                    <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                    <Check className="w-3 h-3 text-green-500 shrink-0" />
                                                     <span>{feature}</span>
                                                 </div>
                                             ))}
@@ -606,11 +606,11 @@ export default function CreateEventPage() {
                                         <p className="font-medium text-sm mb-2">{planInfo.name}</p>
                                         <div className="space-y-1.5 text-xs">
                                             <div className="flex items-center gap-2">
-                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <Check className="w-3 h-3 text-green-500 shrink-0" />
                                                 <span className="text-muted-foreground">{planInfo.limits.maxEvents}</span>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                <Check className="w-3 h-3 text-green-500 shrink-0" />
                                                 <span className="text-muted-foreground">{planInfo.limits.maxBookings}</span>
                                             </div>
                                         </div>
@@ -621,7 +621,7 @@ export default function CreateEventPage() {
                                         <div className="space-y-1">
                                             {planInfo.features.slice(0, 5).map((feature, index) => (
                                                 <div key={index} className="flex items-center gap-2 text-xs">
-                                                    <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                                    <Check className="w-3 h-3 text-green-500 shrink-0" />
                                                     <span className="text-muted-foreground">{feature}</span>
                                                 </div>
                                             ))}

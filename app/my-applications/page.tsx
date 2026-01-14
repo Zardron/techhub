@@ -143,7 +143,7 @@ export default function MyApplicationsPage() {
                                         {application.status === 'pending' && (
                                             <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
                                                 <div className="flex items-start gap-3">
-                                                    <Clock className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                                                    <Clock className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                                                     <div>
                                                         <p className="text-sm font-semibold text-blue-500 mb-1">
                                                             Application Under Review
@@ -160,7 +160,7 @@ export default function MyApplicationsPage() {
                                             <div className="mt-4 space-y-3">
                                                 <div className="p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-2 border-green-500/40 rounded-lg shadow-lg">
                                                     <div className="flex items-start gap-3 mb-3">
-                                                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center border-2 border-green-500/40">
+                                                        <div className="shrink-0 w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center border-2 border-green-500/40">
                                                             <CheckCircle className="w-6 h-6 text-green-500" />
                                                         </div>
                                                         <div className="flex-1">
@@ -172,7 +172,7 @@ export default function MyApplicationsPage() {
                                                             </p>
                                                             <div className="p-3 bg-amber-500/20 border border-amber-500/40 rounded-md mb-3">
                                                                 <div className="flex items-start gap-2">
-                                                                    <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                                                                    <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                                                                     <div>
                                                                         <p className="text-sm font-semibold text-amber-600 dark:text-amber-400 mb-1">
                                                                             Action Required: Please Sign Out and Sign Back In
@@ -211,7 +211,7 @@ export default function MyApplicationsPage() {
                                         {application.status === 'rejected' && application.rejectionReason && (
                                             <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
                                                 <div className="flex items-start gap-3">
-                                                    <XCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                                    <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                                                     <div>
                                                         <p className="text-sm font-semibold text-red-500 mb-1">
                                                             Application Rejected

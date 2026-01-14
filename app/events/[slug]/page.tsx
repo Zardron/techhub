@@ -188,7 +188,7 @@ const EventDetailsPage = ({ params }: { params: Promise<{ slug: string }> }) => 
             {/* Hero Section - Redesigned with Contained Image */}
             <div className="px-5 sm:px-10 mb-12 md:mb-16">
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Left Column - Content */}
                         <div className="space-y-6 order-2 lg:order-1">
                             {/* Tags */}
@@ -204,7 +204,7 @@ const EventDetailsPage = ({ params }: { params: Promise<{ slug: string }> }) => 
                             </div>
 
                             {/* Title */}
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-gradient">
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gradient">
                                 {title}
                             </h1>
 

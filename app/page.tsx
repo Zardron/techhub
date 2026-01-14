@@ -285,7 +285,7 @@ const Page = () => {
 
                   <ul className="space-y-3 mb-6">
                     <li className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                       <span className="text-sm text-light-200">
                         {plan.features.maxEvents === null
                           ? "Unlimited events"
@@ -293,7 +293,7 @@ const Page = () => {
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                       <span className="text-sm text-light-200">
                         {plan.features.maxBookingsPerEvent === null
                           ? "Unlimited bookings"
@@ -302,31 +302,31 @@ const Page = () => {
                     </li>
                     {plan.features.analytics && (
                       <li className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-light-200">Analytics & Insights</span>
                       </li>
                     )}
                     {plan.features.customBranding && (
                       <li className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-light-200">Custom Branding</span>
                       </li>
                     )}
                     {plan.features.prioritySupport && (
                       <li className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-light-200">Priority Support</span>
                       </li>
                     )}
                     {plan.features.apiAccess && (
                       <li className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-light-200">API Access</span>
                       </li>
                     )}
                     {plan.features.whiteLabel && (
                       <li className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-light-200">White Label</span>
                       </li>
                     )}
