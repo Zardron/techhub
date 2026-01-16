@@ -22,7 +22,7 @@ export default function OrganizerEventsPage() {
     console.log("Events:", events);
     const [paymentModalOpen, setPaymentModalOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<any>(null);
-    const [activeTab, setActiveTab] = useState<'bank' | 'ewallet' | 'qr'>('bank');
+    const [activeTab, setActiveTab] = useState<'bank' | 'ewallet'>('bank');
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([]);
     const [paymentDetails, setPaymentDetails] = useState({
         bank: {
@@ -42,11 +42,7 @@ export default function OrganizerEventsPage() {
             name: '',
             number: '',
         },
-        qr: {
-            qrCodeUrl: '',
-        },
     });
-    const [qrFile, setQrFile] = useState<File | null>(null);
 
     // Duplicate event mutation
     const duplicateMutation = useMutation({
@@ -295,7 +291,6 @@ export default function OrganizerEventsPage() {
                                                         gcash: existingDetails.gcash || { name: '', number: '' },
                                                         grabpay: existingDetails.grabpay || { name: '', number: '' },
                                                         paymaya: existingDetails.paymaya || { name: '', number: '' },
-                                                        qr: existingDetails.qr || { qrCodeUrl: '' },
                                                     });
                                                     setPaymentModalOpen(true);
                                                 }}
@@ -408,16 +403,6 @@ export default function OrganizerEventsPage() {
                                     }`}
                                 >
                                     E-Wallet
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('qr')}
-                                    className={`px-4 py-2 text-sm font-medium transition-colors ${
-                                        activeTab === 'qr'
-                                            ? 'border-b-2 border-purple-500 text-purple-500'
-                                            : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                                >
-                                    QR
                                 </button>
                             </div>
 
@@ -629,100 +614,6 @@ export default function OrganizerEventsPage() {
                                     </div>
                                 )}
 
-                                {activeTab === 'qr' && (
-                                    <div className="space-y-4">
-                                        <label className="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-muted/50">
-                                            <input 
-                                                type="checkbox" 
-                                                checked={selectedPaymentMethods.includes('qr_ph') || selectedPaymentMethods.includes('qr_gcash') || selectedPaymentMethods.includes('qr_paymaya')}
-                                                onChange={(e) => {
-                                                    if (e.target.checked) {
-                                                        // Add all QR methods when checked
-                                                        const qrMethods = ['qr_ph', 'qr_gcash', 'qr_paymaya'];
-                                                        setSelectedPaymentMethods([...selectedPaymentMethods.filter(m => !m.startsWith('qr_')), ...qrMethods]);
-                                                    } else {
-                                                        // Remove all QR methods when unchecked
-                                                        setSelectedPaymentMethods(selectedPaymentMethods.filter(m => !m.startsWith('qr_')));
-                                                        setPaymentDetails({ ...paymentDetails, qr: { qrCodeUrl: '' } });
-                                                        setQrFile(null);
-                                                    }
-                                                }}
-                                                className="w-4 h-4"
-                                            />
-                                            <div>
-                                                <p className="font-medium">QR Code Payment</p>
-                                                <p className="text-xs text-muted-foreground">Upload QR code image</p>
-                                            </div>
-                                        </label>
-                                        
-                                        {(selectedPaymentMethods.includes('qr_ph') || selectedPaymentMethods.includes('qr_gcash') || selectedPaymentMethods.includes('qr_paymaya')) && (
-                                            <div className="ml-7 space-y-3 p-4 border rounded-md bg-muted/20">
-                                                <div className="space-y-2">
-                                                    <label className="text-sm font-medium">QR Code Image</label>
-                                                    <div className="flex items-center gap-4">
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={async (e) => {
-                                                                const file = e.target.files?.[0];
-                                                                if (file) {
-                                                                    setQrFile(file);
-                                                                    // Upload QR code via API
-                                                                    try {
-                                                                        const uploadFormData = new FormData();
-                                                                        uploadFormData.append('avatar', file);
-                                                                        
-                                                                        const uploadResponse = await fetch('/api/users/avatar', {
-                                                                            method: 'POST',
-                                                                            headers: {
-                                                                                Authorization: `Bearer ${token}`,
-                                                                            },
-                                                                            body: uploadFormData,
-                                                                        });
-                                                                        
-                                                                        if (uploadResponse.ok) {
-                                                                            const uploadData = await uploadResponse.json();
-                                                                            const qrUrl = uploadData.data?.avatar || uploadData.avatar || uploadData.data?.data?.avatar;
-                                                                            if (qrUrl) {
-                                                                                setPaymentDetails({
-                                                                                    ...paymentDetails,
-                                                                                    qr: { qrCodeUrl: qrUrl }
-                                                                                });
-                                                                                toast.success("QR code uploaded successfully");
-                                                                            } else {
-                                                                                toast.error("Failed to get QR code URL");
-                                                                            }
-                                                                        } else {
-                                                                            const errorData = await uploadResponse.json();
-                                                                            toast.error(errorData.message || "Failed to upload QR code");
-                                                                        }
-                                                                    } catch (error) {
-                                                                        toast.error("Failed to upload QR code");
-                                                                    }
-                                                                }
-                                                            }}
-                                                            className="hidden"
-                                                            id="qr-upload"
-                                                        />
-                                                        <label
-                                                            htmlFor="qr-upload"
-                                                            className="flex items-center gap-2 px-4 py-2 border rounded-md cursor-pointer hover:bg-muted/50"
-                                                        >
-                                                            <Upload className="w-4 h-4" />
-                                                            <span className="text-sm">Upload QR Code</span>
-                                                        </label>
-                                                        {paymentDetails.qr.qrCodeUrl && (
-                                                            <div className="flex items-center gap-2">
-                                                                <img src={paymentDetails.qr.qrCodeUrl} alt="QR Code" className="w-20 h-20 object-contain border rounded" />
-                                                                <span className="text-xs text-muted-foreground">QR Code uploaded</span>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
                             </div>
 
                             <div className="flex gap-2 pt-4 border-t">
@@ -732,15 +623,13 @@ export default function OrganizerEventsPage() {
                                         setPaymentModalOpen(false);
                                         setSelectedEvent(null);
                                         setSelectedPaymentMethods([]);
-                                        setPaymentDetails({
+                                            setPaymentDetails({
                                                 bank: { bankName: '', accountName: '', accountNumber: '' },
                                                 gcash: { name: '', number: '' },
                                                 grabpay: { name: '', number: '' },
                                                 paymaya: { name: '', number: '' },
-                                                qr: { qrCodeUrl: '' },
                                             });
-                                            setQrFile(null);
-                                        setActiveTab('bank');
+                                            setActiveTab('bank');
                                     }}
                                     className="flex-1"
                                 >
@@ -775,12 +664,6 @@ export default function OrganizerEventsPage() {
                                         if (selectedPaymentMethods.includes('paymaya')) {
                                             if (!paymentDetails.paymaya.name || !paymentDetails.paymaya.number) {
                                                 toast.error("Please fill in PayMaya name and number");
-                                                return;
-                                            }
-                                        }
-                                        if (selectedPaymentMethods.some(m => m.startsWith('qr_'))) {
-                                            if (!paymentDetails.qr.qrCodeUrl) {
-                                                toast.error("Please upload QR code image");
                                                 return;
                                             }
                                         }
@@ -821,9 +704,7 @@ export default function OrganizerEventsPage() {
                                                 gcash: { name: '', number: '' },
                                                 grabpay: { name: '', number: '' },
                                                 paymaya: { name: '', number: '' },
-                                                qr: { qrCodeUrl: '' },
                                             });
-                                            setQrFile(null);
                                             setActiveTab('bank');
                                             queryClient.invalidateQueries({ queryKey: ["organizer", "events"] });
                                             queryClient.invalidateQueries({ queryKey: ["organizer", "stats"] });

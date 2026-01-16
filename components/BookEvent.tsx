@@ -19,7 +19,7 @@ const BookEvent = ({ eventSlug }: BookEventProps) => {
     const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
     const [mounted, setMounted] = useState<boolean>(false);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("");
-    const [activePaymentTab, setActivePaymentTab] = useState<'bank' | 'ewallet' | 'qr'>('bank');
+    const [activePaymentTab, setActivePaymentTab] = useState<'bank' | 'ewallet'>('bank');
     const [receiptFile, setReceiptFile] = useState<File | null>(null);
     const [receiptPreview, setReceiptPreview] = useState<string | null>(null);
     const [isUploadingReceipt, setIsUploadingReceipt] = useState<boolean>(false);
@@ -50,21 +50,18 @@ const BookEvent = ({ eventSlug }: BookEventProps) => {
 
     // Group payment methods by category
     const groupPaymentMethods = () => {
-        if (!event?.paymentMethods) return { bank: [], ewallet: [], qr: [] };
+        if (!event?.paymentMethods) return { bank: [], ewallet: [] };
 
         const bankMethods = event.paymentMethods.filter((m: string) => m === 'bank_transfer');
         const ewalletMethods = event.paymentMethods.filter((m: string) => 
             ['gcash', 'paymaya', 'grabpay', 'grab_pay'].includes(m)
         );
-        const qrMethods = event.paymentMethods.filter((m: string) => 
-            ['qr', 'qr_ph', 'qr_gcash', 'qr_paymaya'].includes(m)
-        );
 
-        return { bank: bankMethods, ewallet: ewalletMethods, qr: qrMethods };
+        return { bank: bankMethods, ewallet: ewalletMethods };
     };
 
     // Get first available payment method in a tab
-    const getFirstAvailableMethod = (tab: 'bank' | 'ewallet' | 'qr') => {
+    const getFirstAvailableMethod = (tab: 'bank' | 'ewallet') => {
         const groups = groupPaymentMethods();
         const methods = groups[tab];
         return methods.length > 0 ? methods[0] : null;
@@ -95,13 +92,11 @@ const BookEvent = ({ eventSlug }: BookEventProps) => {
         if (isPaidEvent) {
             // Set active tab to first available payment method category
             const groups = groupPaymentMethods();
-            let activeTab: 'bank' | 'ewallet' | 'qr' = 'bank';
+            let activeTab: 'bank' | 'ewallet' = 'bank';
             if (groups.bank.length > 0) {
                 activeTab = 'bank';
             } else if (groups.ewallet.length > 0) {
                 activeTab = 'ewallet';
-            } else if (groups.qr.length > 0) {
-                activeTab = 'qr';
             }
             setActivePaymentTab(activeTab);
             // Auto-select first available payment method
@@ -332,10 +327,6 @@ const BookEvent = ({ eventSlug }: BookEventProps) => {
         'paymaya': 'PayMaya',
         'grabpay': 'GrabPay',
         'grab_pay': 'GrabPay',
-        'qr': 'QR Code',
-        'qr_ph': 'QR Code (PH)',
-        'qr_gcash': 'QR Code (GCash)',
-        'qr_paymaya': 'QR Code (PayMaya)',
     };
 
     const isLoading = createBookingMutation.isPending;
@@ -482,20 +473,6 @@ const BookEvent = ({ eventSlug }: BookEventProps) => {
                                     >
                                         E-Wallet
                                     </button>
-                                    <button
-                                        onClick={() => {
-                                            setActivePaymentTab('qr');
-                                            const firstMethod = getFirstAvailableMethod('qr');
-                                            setSelectedPaymentMethod(firstMethod || "");
-                                        }}
-                                        className={`px-4 py-2 text-sm font-medium transition-colors duration-200 border-b-2 ${
-                                            activePaymentTab === 'qr'
-                                                ? 'border-primary text-primary'
-                                                : 'border-transparent text-light-200 hover:text-light-100'
-                                        }`}
-                                    >
-                                        QR
-                                    </button>
                                 </div>
 
                                 {/* Payment Methods by Tab */}
@@ -552,31 +529,6 @@ const BookEvent = ({ eventSlug }: BookEventProps) => {
                                         </div>
                                     )}
 
-                                    {activePaymentTab === 'qr' && (
-                                        <div>
-                                            {paymentMethodGroups.qr.length > 0 ? (
-                                                <div className="grid grid-cols-2 gap-3">
-                                                    {paymentMethodGroups.qr.map((method: string) => (
-                                                        <button
-                                                            key={method}
-                                                            onClick={() => setSelectedPaymentMethod(method)}
-                                                            className={`p-4 rounded-md border transition-all duration-200 ${
-                                                                selectedPaymentMethod === method
-                                                                    ? 'bg-primary/20 border-primary text-primary'
-                                                                    : 'bg-dark-200/30 border-border-dark/50 text-light-100 hover:border-primary/30'
-                                                            }`}
-                                                        >
-                                                            <span className="font-medium">{methodLabels[method] || method.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <div className="p-4 rounded-md bg-dark-200/20 border border-border-dark/30 text-center">
-                                                    <p className="text-sm text-light-200">Not available</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
                                 </div>
                             </div>
 
@@ -607,18 +559,6 @@ const BookEvent = ({ eventSlug }: BookEventProps) => {
                                         <div className="space-y-1 text-sm text-light-200">
                                             <p><span className="font-medium">Name:</span> {event.paymentDetails.grabpay.name}</p>
                                             <p><span className="font-medium">Number:</span> {event.paymentDetails.grabpay.number}</p>
-                                        </div>
-                                    )}
-                                    {(selectedPaymentMethod === 'qr' || selectedPaymentMethod === 'qr_ph' || selectedPaymentMethod === 'qr_gcash' || selectedPaymentMethod === 'qr_paymaya') && event.paymentDetails.qr && event.paymentDetails.qr.qrCodeUrl && (
-                                        <div className="space-y-2">
-                                            <p className="text-sm text-light-200">Scan the QR code below:</p>
-                                            <Image 
-                                                src={event.paymentDetails.qr.qrCodeUrl} 
-                                                alt="QR Code" 
-                                                width={200} 
-                                                height={200} 
-                                                className="mx-auto rounded-md"
-                                            />
                                         </div>
                                     )}
                                 </div>
