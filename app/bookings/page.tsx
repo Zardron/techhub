@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -57,7 +57,7 @@ interface TicketData {
   };
 }
 
-const BookingsPage = () => {
+const BookingsPageContent = () => {
   const searchParams = useSearchParams();
   const bookingIdParam = searchParams.get("id");
   const ticketNumberParam = searchParams.get("ticketNumber");
@@ -954,6 +954,20 @@ const BookingsPage = () => {
         )}
       </div>
     </div>
+  );
+};
+
+const BookingsPage = () => {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background pt-20 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex-center flex-col gap-4 py-20">
+          <p className="text-foreground/60 text-lg">Loading bookings...</p>
+        </div>
+      </div>
+    }>
+      <BookingsPageContent />
+    </Suspense>
   );
 };
 
