@@ -1,9 +1,10 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Footer from "@/components/Footer";
 
-export default function ConditionalFooter() {
+function ConditionalFooterContent() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const ticketNumber = searchParams.get("ticketNumber");
@@ -27,3 +28,10 @@ export default function ConditionalFooter() {
     );
 }
 
+export default function ConditionalFooter() {
+    return (
+        <Suspense fallback={null}>
+            <ConditionalFooterContent />
+        </Suspense>
+    );
+}

@@ -1,9 +1,10 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Navbar from "./Navbar";
 
-export default function ConditionalNavbar() {
+function ConditionalNavbarContent() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const ticketNumber = searchParams.get("ticketNumber");
@@ -23,3 +24,10 @@ export default function ConditionalNavbar() {
     );
 }
 
+export default function ConditionalNavbar() {
+    return (
+        <Suspense fallback={null}>
+            <ConditionalNavbarContent />
+        </Suspense>
+    );
+}

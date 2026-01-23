@@ -73,9 +73,8 @@ const bookingSchema = new Schema<IBooking>(
     }
 });
 
-bookingSchema.index({ eventId: 1 });
 bookingSchema.index({ userId: 1 });
-bookingSchema.index({ eventId: 1, userId: 1 }); // Compound index for checking duplicate bookings
+bookingSchema.index({ eventId: 1, userId: 1 }); // Compound index for checking duplicate bookings (covers eventId as well)
 
 export default mongoose.models.Booking || mongoose.model<IBooking>('Booking', bookingSchema) as Model<IBooking>;
 
